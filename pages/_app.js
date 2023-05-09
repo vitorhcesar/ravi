@@ -32,21 +32,23 @@ export default function App({ Component, pageProps }) {
 
         const btnTabelas = document.getElementById('btn-tabelas');
         const btnAnalytics = document.getElementById('btn-analytics');
-        
-        if(viewActive == 'tabelas'){
-            tabelaView.className = ('db-viewTabelaOn');
-            analyticsView.className = ('db-viewAnalyticsOff')
-            
-            btnTabelas.className = ('db-lb-buttonSelected');
-            btnAnalytics.className = ('db-lb-button');
-        } else if(viewActive == 'analytics'){
-            tabelaView.className = ('db-viewTabelaOff');
-            analyticsView.className = ('db-viewAnalyticsOn')
-            
-            btnTabelas.className = ('db-lb-button');
-            btnAnalytics.className = ('db-lb-buttonSelected');
-        }
 
+        if(tabelaView){ // Se tabelaView EXISTE, então...
+            if(viewActive == 'tabelas'){
+                tabelaView.className = ('db-viewTabelaOn');
+                analyticsView.className = ('db-viewAnalyticsOff')
+                
+                btnTabelas.className = ('db-lb-buttonSelected');
+                btnAnalytics.className = ('db-lb-button');
+            } else if(viewActive == 'analytics'){
+                tabelaView.className = ('db-viewTabelaOff');
+                analyticsView.className = ('db-viewAnalyticsOn')
+                
+                btnTabelas.className = ('db-lb-button');
+                btnAnalytics.className = ('db-lb-buttonSelected');
+            }
+        }
+        
         console.log('View mudada');
     }, [viewActive]);
 
