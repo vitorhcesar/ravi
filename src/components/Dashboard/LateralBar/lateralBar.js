@@ -2,7 +2,7 @@ import MainContext from '@/contexts/mainContext'
 import React, { useContext } from 'react'
 
 const LateralBar = () => {
-    const [ lbBtnClick ] = useContext(MainContext);
+    const [ setViewActive ] = useContext(MainContext);
 
     return (
         <div id='db-lateralBar'>
@@ -19,8 +19,12 @@ const LateralBar = () => {
                 </div>
             </div>
             <div className='db-lb-buttons'>
-                <button onClick={() => lbBtnClick('tabelas')} className='db-lb-buttonSelected' id='btn-tabelas'><ion-icon name="albums-outline"></ion-icon>Tabelas</button>
-                <button onClick={() => lbBtnClick('analytics')} className='db-lb-button' id='btn-analytics'><ion-icon name="bar-chart-outline"></ion-icon>Analytics</button>
+                <button onClick={() => setViewActive('tabelas')} className='db-lb-buttonSelected' id='btn-tabelas'>
+                    <ion-icon name="albums-outline"></ion-icon>Tabelas
+                </button>
+                <button onClick={() => setViewActive('analytics')} className='db-lb-button' id='btn-analytics'>
+                    <ion-icon name="bar-chart-outline"></ion-icon>Analytics
+                </button>
             </div>
         </div>
     )

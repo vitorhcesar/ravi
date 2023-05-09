@@ -1,21 +1,24 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import MainContext from '@/contexts/mainContext'; 
 
-const Tabela = ( {name, gasto, total} ) => {
+const Tabela = ( {id, name, gasto, total} ) => {
+    const [ setViewActive, map, setMap, addNewTabela, tabelas, setTabelas ] = useContext(MainContext);
+
     return (
         <div className='db-tabela'>
             <header>
                 <ion-icon name="trash-outline"></ion-icon>
-                <h1>Luz</h1>
+                <h1>{name}</h1>
             </header>
             <div className='db-tableDiv'>
-                <h2>Gasto <span>R$ 0,00</span></h2>
+                <h2>Gasto <span>R$ {gasto}</span></h2>
                 <div className='db-divBtns'>
                     <button>Diminuir</button>
                     <button>Adicionar</button>
                 </div>
             </div>
             <div className='db-tableDiv'>
-                <h2>Total <span>R$ 400,00</span></h2>
+                <h2>Total <span>R$ {total}</span></h2>
                 <div className='db-divBtns'>
                     <button>Diminuir</button>
                     <button>Adicionar</button>

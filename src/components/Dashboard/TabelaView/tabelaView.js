@@ -1,17 +1,15 @@
-import React, { useContext } from 'react'
-import Tabela from './tabela';
+import React, { useContext, useEffect } from 'react';
+import * as ReactDOM from 'react-dom';
 import MainContext from '@/contexts/mainContext';
+import Tabela from './tabela';
 
 const TabelaView = () => {
-    const [ tabelas ] = useContext(MainContext);
-
-    console.log(tabelas);
+    const [ setViewActive, map, setMap, addNewTabela, tabelas, setTabelas ] = useContext(MainContext);
 
     return (
         <section id='db-tabelaView' className='db-viewTabelaOn'>
-            {/* { tabelas.map( (item, indice) => <Tabela key={indice} name={item.nome} gasto={item.gasto} total={item.total} />) } */}
-            <Tabela />
-            <button className='db-newTableBtn'>Nova tabela<ion-icon name="add-circle-outline"></ion-icon></button>
+            { map }
+            <button onClick={() => addNewTabela()} className='db-newTableBtn'>Nova tabela<ion-icon name="add-circle-outline"></ion-icon></button>
         </section>
     );
 };
