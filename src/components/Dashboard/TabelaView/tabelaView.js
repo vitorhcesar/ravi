@@ -9,7 +9,10 @@ const TabelaView = () => {
     return (
         <section id='db-tabelaView' className='db-viewTabelaOn'>
             { map }
-            <button onClick={() => addNewTabela()} className='db-newTableBtn'>Nova tabela<ion-icon name="add-circle-outline"></ion-icon></button>
+            <button onClick={() => addNewTabela()} className='db-newTableBtn'>
+                Nova tabela
+                <ion-icon name="add-circle-outline"></ion-icon>
+            </button>
         </section>
     );
 };
