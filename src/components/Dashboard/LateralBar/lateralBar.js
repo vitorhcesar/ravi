@@ -2,7 +2,7 @@ import MainContext from '@/contexts/mainContext'
 import React, { useContext } from 'react'
 
 const LateralBar = () => {
-    const [ setViewActive ] = useContext(MainContext);
+    const [ setViewActive, map, setMap, addNewTabela, tabelas, setTabelas, removeTabela, addRemoveTotalGasto, eraseTabelas, valorGlobal, setValorGlobal, sobraGlobal, setSobraGlobal ] = useContext(MainContext);
 
     return (
         <div id='db-lateralBar'>
@@ -11,11 +11,12 @@ const LateralBar = () => {
                 <h2 className='db-dbText normal text-blue'>Dashboard</h2>
             </div>
             <div className='db-tSCtner'>
-                <div className='db-bgRounded bg-pink'>
-                    <h1>Total: <span>R$ 1000,00</span></h1>
+                <div className='db-totalInputDiv db-bgRounded bg-pink'>
+                    <h1>Total: <span className='text-green'>R$</span></h1>
+                    <input value={valorGlobal} onChange={(e) => setValorGlobal(e.target.value)} />
                 </div>
                 <div className='db-bgRounded bg-blue'>
-                    <h1>Sobra: <b>R$ 0,00</b></h1>
+                    <h1>Sobra: <b>R$ {sobraGlobal}</b></h1>
                 </div>
             </div>
             <div className='db-lb-buttons'>

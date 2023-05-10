@@ -23,7 +23,7 @@ const Tabela = ( {id, name, gasto, total} ) => {
                     <button onClick={() => addRemoveTotalGasto('total', 'remove', id)}>Diminuir</button>
                     <button onClick={() => addRemoveTotalGasto('total', 'add', id)}>Adicionar</button>
                 </div>
-                <h2><b className='text-pink'>Sobram {tabelas[id].total - tabelas[id].gasto}</b></h2>
+                <h2 className='db-tableSobra'>Sobram <b className='text-pink'>R$ {total - gasto}</b></h2>
             </div>
         </div>
     )

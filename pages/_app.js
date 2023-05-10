@@ -2,59 +2,52 @@ import '@/styles/globals.css'
 import Tabela from '@/src/components/Dashboard/TabelaView/tabela'
 import { useState, useEffect } from 'react'
 import MainContext from '@/contexts/mainContext'
-
 import swal from 'sweetalert'
 
-
 export default function App({ Component, pageProps }) {
+    // Variáveis e estados
     const [viewActive, setViewActive] = useState('tabelas');
     const [tabelas, setTabelas] = useState([{
-            nome: 'Luz',
-            total: 400,
-            gasto: 0
-        },
-        {
-            nome: 'Comida',
-            total: 600,
-            gasto: 100
-        }
-    ]);
+        nome: 'Transporte',
+        total: 400,
+        gasto: 0
+    }, {
+        nome: 'Comida',
+        total: 600,
+        gasto: 200
+    }]);
     const [map, setMap] = useState(tabelas.map( (item, indice) => <Tabela key={indice} id={indice} name={item.nome} gasto={item.gasto} total={item.total} />));
+    const [valorGlobal, setValorGlobal] = useState(1000);
+    const [sobraGlobal, setSobraGlobal] = useState(0);
 
-    function refreshMap(){ // Função para atualizar o map na tela
+    // Funções
+    async function refreshMap(){ // Função para atualizar o map na tela
         if(tabelas.length > 0){
-            let newMap = tabelas.map( (item, indice) => <Tabela key={indice} id={indice} name={item.nome} gasto={item.gasto} total={item.total} />);
+            let newMap =  tabelas.map( (item, indice) => <Tabela key={indice} id={indice} name={item.nome} gasto={item.gasto} total={item.total} />);
             setMap(newMap);
+            console.log('Map refresh');
         } else {
             setMap('Nenhuma tabela na área de trabalho.')
         }
     }
-    
-    useEffect(() => {
-        const tabelaView = document.getElementById('db-tabelaView');
-        const analyticsView = document.getElementById('db-analyticsView');
 
-        const btnTabelas = document.getElementById('btn-tabelas');
-        const btnAnalytics = document.getElementById('btn-analytics');
+    async function asyncMapRefresh(){
+        await refreshMap().then(() => console.log('Refresh dado de modo assincrono.'));
+    }
 
-        if(tabelaView){ // Se tabelaView EXISTE, então...
-            if(viewActive == 'tabelas'){
-                tabelaView.className = ('db-viewTabelaOn');
-                analyticsView.className = ('db-viewAnalyticsOff')
-                
-                btnTabelas.className = ('db-lb-buttonSelected');
-                btnAnalytics.className = ('db-lb-button');
-            } else if(viewActive == 'analytics'){
-                tabelaView.className = ('db-viewTabelaOff');
-                analyticsView.className = ('db-viewAnalyticsOn')
-                
-                btnTabelas.className = ('db-lb-button');
-                btnAnalytics.className = ('db-lb-buttonSelected');
-            }
+    function sobraGlobalCounter(){
+        let tabelasValue = 0;
+
+        for(var i = 0; i < tabelas.length; i++){
+            tabelasValue = tabelasValue + parseFloat(tabelas[i].total);
         }
-        
-        console.log('View mudada');
-    }, [viewActive]);
+
+        setSobraGlobal(valorGlobal - tabelasValue);
+
+        if((valorGlobal - tabelasValue) < 0){
+            swal('Você não tem tanto dinheiro assim!', 'Atenção, sua sobra esta NEGATIVA, isso indica que você está gastando mais do que tem!', 'warning');
+        }
+    }
 
     async function eraseTabelas(){
         if(tabelas.length == 0){
@@ -71,6 +64,9 @@ export default function App({ Component, pageProps }) {
                 }
             }).then(() => {
                 refreshMap();
+                sobraGlobalCounter(); // Atualizando sobra
+                localStorage.setItem('tabelas', JSON.stringify(tabelas));
+                console.log('Tabela adicionada ao localStorage');
 
                 swal('Sucesso!', 'A área de trabalho agora está limpa e não possui tabelas!!', 'success', {
                     button: 'Ok!'
@@ -135,7 +131,20 @@ export default function App({ Component, pageProps }) {
                     });
             
                     refreshMap(); // Atualizando o map na tela
-                    swal('Tabela criada com sucesso!', `A tabela ${nome} foi criada, agora você possui um total de ${tabelas.length} tabelas!`, 'success');
+                    localStorage.setItem('tabelas', JSON.stringify(tabelas));
+                    console.log('Tabela adicionada ao localStorage');
+
+                    let a = new Promise(() => {
+                        sobraGlobalCounter(); // Atualizando sobra
+                    });
+
+                    a.then(() => {
+                        if(sobraGlobal >= 0){
+                            swal('Tabela criada com sucesso!', `A tabela ${nome} foi criada, agora você possui um total de ${tabelas.length} tabelas!`, 'success');
+                        } else {
+                            swal('Tabela criada com sucesso, mas cuidado...', `A tabela ${nome} foi criada, porém agora você está no negativo, tem certeza de que está tudo certo?`, 'warning');
+                        }
+                    })
                 }
             });
         }
@@ -155,6 +164,9 @@ export default function App({ Component, pageProps }) {
                 case 'submit':
                     tabelas.splice(index, 1);
                     refreshMap();
+                    sobraGlobalCounter(); // Atualizando sobra
+                    localStorage.setItem('tabelas', JSON.stringify(tabelas));
+                    console.log('Tabela adicionada ao localStorage');
                     swal('Sucesso!', 'Tabela excluida com sucesso!', 'success');
                     break;
                 default:
@@ -187,6 +199,7 @@ export default function App({ Component, pageProps }) {
                 }
 
                 tabelas[index].total += value;
+                sobraGlobalCounter();
                 console.log(value, 'valor no final');
             } else if(fnc == 'remove'){
                 await swal('Digite quanto você deseja diminuir: ', {
@@ -208,9 +221,14 @@ export default function App({ Component, pageProps }) {
                     swal('ERROR', 'O total não pode ser menor que 1.', 'error');
 
                     return;
+                } if((tabelas[index].total - value) < tabelas[index].gasto){
+                    swal('ERROR', 'O total não pode ser menor que o gasto.', 'error');
+
+                    return;
                 }
 
                 tabelas[index].total -= value;
+                sobraGlobalCounter();
             }
         } else if(type == 'gasto') { // gasto
             if(fnc == 'add'){
@@ -262,11 +280,71 @@ export default function App({ Component, pageProps }) {
             }
         }
 
+        localStorage.setItem('tabelas', JSON.stringify(tabelas));
+        console.log('Tabela adicionada ao localStorage');
         refreshMap();
     }
 
+    // JSON
+    useEffect(() => {
+        async function eraseInitialTabelas(){
+            tabelas.splice(0, tabelas.length);
+        }
+
+        async function letsGo(){
+            if(localStorage.getItem('tabelas') !== null){
+                await eraseInitialTabelas().then(() => {
+                    // setTabelas(JSON.parse(localStorage.getItem('tabelas')));
+                    const a = JSON.parse(localStorage.getItem('tabelas'));
+
+                    for(var i = 0; i < a.length; i++){
+                        tabelas.push(a[i]);
+                    }
+                }).then(() => {
+                    refreshMap();
+                    sobraGlobalCounter();
+                    console.log(tabelas);
+                });
+            } else {
+                console.log('Não existem tabelas');
+            }
+        }
+
+        letsGo();
+    }, []);
+
+    // Use Effects
+    useEffect(() => {
+        const tabelaView = document.getElementById('db-tabelaView');
+        const analyticsView = document.getElementById('db-analyticsView');
+
+        const btnTabelas = document.getElementById('btn-tabelas');
+        const btnAnalytics = document.getElementById('btn-analytics');
+
+        if(tabelaView){ // Se tabelaView EXISTE, então...
+            if(viewActive == 'tabelas'){
+                tabelaView.className = ('db-viewTabelaOn');
+                analyticsView.className = ('db-viewAnalyticsOff')
+                
+                btnTabelas.className = ('db-lb-buttonSelected');
+                btnAnalytics.className = ('db-lb-button');
+            } else if(viewActive == 'analytics'){
+                tabelaView.className = ('db-viewTabelaOff');
+                analyticsView.className = ('db-viewAnalyticsOn')
+                
+                btnTabelas.className = ('db-lb-button');
+                btnAnalytics.className = ('db-lb-buttonSelected');
+            }
+        }
+    }, [viewActive]);
+
+    useEffect(() => {
+        sobraGlobalCounter();
+    }, [valorGlobal]);
+
+
     return (
-        <MainContext.Provider value={[setViewActive, map, setMap, addNewTabela, tabelas, setTabelas, removeTabela, addRemoveTotalGasto, eraseTabelas]}>
+        <MainContext.Provider value={[setViewActive, map, setMap, addNewTabela, tabelas, setTabelas, removeTabela, addRemoveTotalGasto, eraseTabelas, valorGlobal, setValorGlobal, sobraGlobal, setSobraGlobal]}>
             <Component {...pageProps} />
         </MainContext.Provider>
     );
