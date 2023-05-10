@@ -33,15 +33,18 @@ export default function App({ Component, pageProps }) {
 
     function sobraGlobalCounter(){
         let tabelasValue = 0;
-
+        let sobraObject = document.getElementById('db-sobraGlobal');
+        
         for(var i = 0; i < tabelas.length; i++){
             tabelasValue = tabelasValue + parseFloat(tabelas[i].total);
         }
-
+        
         setSobraGlobal(valorGlobal - tabelasValue);
 
         if((valorGlobal - tabelasValue) < 0){
-            swal('Você não tem tanto dinheiro assim!', 'Atenção, sua sobra esta NEGATIVA, isso indica que você está gastando mais do que tem!', 'warning');
+            sobraObject.className = 'db-sobraGlobalNegative';
+        } else{
+            sobraObject.className = 'db-sobraGlobalPositive';
         }
     }
 
@@ -52,21 +55,36 @@ export default function App({ Component, pageProps }) {
             });
         } else {
             await swal('Esta ação é importante', 'Você tem certeza de que quer excluir todas as tabelas?', 'warning', {
-                button: 'Sim, tenho certeza'
-            }).then(() => {
-                let limit = tabelas.length;
-                for(var i = 0; i < limit; i++){
-                    tabelas.pop();
+                buttons: {
+                    cancel: 'Não tenho certeza',
+                    default: 'Sim, tenho certeza'
                 }
-            }).then(() => {
-                refreshMap();
-                sobraGlobalCounter(); // Atualizando sobra
-                localStorage.setItem('tabelas', JSON.stringify(tabelas));
-                console.log('Tabela adicionada ao localStorage');
+            }).then((value) => {
+                if(value == null){
+                    swal('Operação abortada!', 'Sua área de trabalho continua a mesma.', 'info', {
+                        button: 'Ok!'
+                    });
 
-                swal('Sucesso!', 'A área de trabalho agora está limpa e não possui tabelas!!', 'success', {
-                    button: 'Ok!'
-                });
+                    return null;
+                } else{
+                    let limit = tabelas.length;
+                    for(var i = 0; i < limit; i++){
+                        tabelas.pop();
+                    }
+                    
+                    return true;
+                }
+            }).then((value) => {
+                if(value == true){
+                    refreshMap();
+                    sobraGlobalCounter(); // Atualizando sobra
+                    localStorage.setItem('tabelas', JSON.stringify(tabelas));
+                    console.log('Tabela adicionada ao localStorage');
+    
+                    swal('Sucesso!', 'A área de trabalho agora está limpa e não possui tabelas!', 'success', {
+                        button: 'Ok!'
+                    });
+                }
             });
         }
     }

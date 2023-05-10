@@ -414,6 +414,27 @@ header nav {
     overflow: visible;
 }
 
+.db-sobraGlobalPositive {
+    max-width: 300px;
+    
+} .db-sobraGlobalPositive b {
+    color: #FCFCFC;
+}
+.db-sobraGlobalNegative {
+    max-width: 300px;
+    
+} .db-sobraGlobalNegative b {
+    color: red;
+} .db-sobraGlobalNegative::after {
+    content: 'Você esta no negativo! Reveja suas tabelas!';   
+    font-size: .8rem; 
+    display: block;
+    color: var(--branco);
+    background: #22222273;
+    border-radius: .2rem;
+    padding: .1rem;
+}
+
 .db-lb-buttons {
     display: flex;
     flex-direction: column;

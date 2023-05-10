@@ -1,5 +1,6 @@
 import MainContext from '@/contexts/mainContext'
 import React, { useContext } from 'react'
+import swal from 'sweetalert'
 
 const LateralBar = () => {
     const [ setViewActive, map, setMap, addNewTabela, tabelas, setTabelas, removeTabela, addRemoveTotalGasto, eraseTabelas, valorGlobal, setValorGlobal, sobraGlobal, setSobraGlobal ] = useContext(MainContext);
@@ -14,12 +15,16 @@ const LateralBar = () => {
                 <div className='db-totalInputDiv db-bgRounded bg-pink'>
                     <h1>Total: <span className='text-green'>R$</span></h1>
                     <input value={valorGlobal} onChange={(e) => {
-                        setValorGlobal(e.target.value);
-                        localStorage.setItem('valorGlobal', JSON.stringify(e.target.value));
+                        if(isNaN(e.target.value)){
+                            swal('Valor inválido', 'O valor digitado não é um número!', 'error');
+                        } else{
+                            setValorGlobal(e.target.value);
+                            localStorage.setItem('valorGlobal', JSON.stringify(e.target.value));
+                        }
                     }} />
                 </div>
                 <div className='db-bgRounded bg-blue'>
-                    <h1>Sobra: <b>R$ {sobraGlobal}</b></h1>
+                    <h1 id='db-sobraGlobal' className='db-sobraGlobalPositive'>Sobra: <b>R$ {sobraGlobal}</b></h1>
                 </div>
             </div>
             <div className='db-lb-buttons'>
