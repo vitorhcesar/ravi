@@ -31,20 +31,22 @@ export default function App({ Component, pageProps }) {
         }
     }
 
-    function sobraGlobalCounter(){
-        let tabelasValue = 0;
-        let sobraObject = document.getElementById('db-sobraGlobal');
-        
-        for(var i = 0; i < tabelas.length; i++){
-            tabelasValue = tabelasValue + parseFloat(tabelas[i].total);
-        }
-        
-        setSobraGlobal(valorGlobal - tabelasValue);
-
-        if((valorGlobal - tabelasValue) < 0){
-            sobraObject.className = 'db-sobraGlobalNegative';
-        } else{
-            sobraObject.className = 'db-sobraGlobalPositive';
+    async function sobraGlobalCounter(){
+        if(document){
+            let tabelasValue = 0;
+            let sobraObject = document.getElementById('db-sobraGlobal');
+            
+            for(var i = 0; i < tabelas.length; i++){
+                tabelasValue = tabelasValue + parseFloat(tabelas[i].total);
+            }
+            
+            setSobraGlobal(valorGlobal - tabelasValue);
+    
+            if((valorGlobal - tabelasValue) < 0){
+                sobraObject.className = 'db-sobraGlobalNegative';
+            } else{
+                sobraObject.className = 'db-sobraGlobalPositive';
+            }
         }
     }
 
