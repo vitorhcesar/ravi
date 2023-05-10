@@ -496,6 +496,7 @@ header nav {
 }
 .db-tabela header h1 {
     font-size: 2rem;
+    text-transform: capitalize;
 }
 
 .db-tableDiv {
@@ -557,6 +558,34 @@ header nav {
 } .db-newTableBtn:hover {
     cursor: pointer;
     background: #a83350;
+}
+
+.db-newTableBtnErase {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--branco);
+    font-size: 1.2rem;
+    font-weight: 300;
+
+    background: rgb(202, 16, 16);
+    outline: none;
+    border: none;
+    border-radius: 1.2rem;
+
+    width: 180px;
+    padding: .3rem;
+    
+    transition: .5s ease-out;
+} .db-newTableBtnErase:hover {
+    cursor: pointer;
+    background: rgb(145, 18, 18);
+}
+
+.db-divBtnsNewErase {
+    display: grid;
+    gap: .5rem;
 }
 
 /* ANALYTICS VIEW */

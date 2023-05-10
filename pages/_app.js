@@ -22,8 +22,12 @@ export default function App({ Component, pageProps }) {
     const [map, setMap] = useState(tabelas.map( (item, indice) => <Tabela key={indice} id={indice} name={item.nome} gasto={item.gasto} total={item.total} />));
 
     function refreshMap(){ // Função para atualizar o map na tela
-        let newMap = tabelas.map( (item, indice) => <Tabela key={indice} id={indice} name={item.nome} gasto={item.gasto} total={item.total} />);
-        setMap(newMap);
+        if(tabelas.length > 0){
+            let newMap = tabelas.map( (item, indice) => <Tabela key={indice} id={indice} name={item.nome} gasto={item.gasto} total={item.total} />);
+            setMap(newMap);
+        } else {
+            setMap('Nenhuma tabela na área de trabalho.')
+        }
     }
     
     useEffect(() => {
@@ -52,36 +56,125 @@ export default function App({ Component, pageProps }) {
         console.log('View mudada');
     }, [viewActive]);
 
-    function addNewTabela(){
-        let nome = prompt('Digite um nome para a tabela');
-        if(nome){
+    async function eraseTabelas(){
+        if(tabelas.length == 0){
+            swal('Você já não possui tabelas!', 'A área de trabalho não possui nenhuma tabela!', 'error', {
+                button: 'Vou criar uma!'
+            });
+        } else {
+            await swal('Esta ação é importante', 'Você tem certeza de que quer excluir todas as tabelas?', 'warning', {
+                button: 'Sim, tenho certeza'
+            }).then(() => {
+                let limit = tabelas.length;
+                for(var i = 0; i < limit; i++){
+                    tabelas.pop();
+                }
+            }).then(() => {
+                refreshMap();
 
+                swal('Sucesso!', 'A área de trabalho agora está limpa e não possui tabelas!!', 'success', {
+                    button: 'Ok!'
+                });
+            });
         }
+    }
 
-        let total = parseFloat(prompt('Digite o valor teto da tabela'));
-        let gasto = parseFloat(prompt('Digite o valor gasto da tabela'));
+    async function addNewTabela(){
+        let nome = null;
+        let total = null;
+        let gasto = null;
 
-        tabelas.push({
-            nome: nome,
-            total: total,
-            gasto: gasto
+        await swal({ // Recebendo nome
+            text: 'Digite o nome da Tabela',
+            content: 'input',
+            icon: 'info'
+        }).then((value) => {
+            if(value == ''){
+                swal('Digite um nome válido!', 'A Tabela precisa de um nome, por favor, tente novamente.', 'error');
+
+                nome = null;
+            } else{
+                nome = value;
+            }
         });
-
-        refreshMap();
-        console.log('Nova Tabela adicionada', tabelas);
+        if(nome != null){
+            await swal({ // Recebendo valor teto
+                text: 'Digite o valor total (o teto) da Tabela',
+                content: 'input',
+                icon: 'info'
+            }).then((value) => {
+                if(value == '' || Number.isNaN(parseFloat(value)) || value <= 0){
+                    swal('Digite um valor válido!', 'A Tabela precisa de um teto válido, por favor, tente novamente.', 'error');
+    
+                    total = null;
+                } else{
+                    total = parseFloat(value);
+                }
+            });
+        } if(total != null){
+            await swal({ // Recebendo valor gasto
+                text: 'Digite o valor gasto da Tabela',
+                content: 'input',
+                icon: 'info'
+            }).then((value) => {
+                if(value == '' || Number.isNaN(parseFloat(value)) || value < 0){
+                    swal('Digite um valor válido!', 'A Tabela precisa de um valor gasto válido, por favor, tente novamente.', 'error');
+    
+                    return;
+                } else if(parseFloat(value) > total){
+                    swal('Tabela inválida!', 'O valor gasto da Tabela é maior que o valor total da Tabela.', 'error');
+    
+                    return;
+                } else{
+                    gasto = parseFloat(value);
+    
+                    tabelas.push({ // Fazendo push nas tabelas
+                        nome: nome,
+                        total: total,
+                        gasto: gasto
+                    });
+            
+                    refreshMap(); // Atualizando o map na tela
+                    swal('Tabela criada com sucesso!', `A tabela ${nome} foi criada, agora você possui um total de ${tabelas.length} tabelas!`, 'success');
+                }
+            });
+        }
     }
 
-    function removeTabela(index){
-        tabelas.splice(index, 1);
-        refreshMap();
+    async function removeTabela(index){
+        await swal('Tem certeza?', 'A ação excluirá a tabela', 'warning', {
+            buttons: {
+                cancel: 'Cancelar',
+                catch: {
+                    text: 'Excluir tabela',
+                    value: 'submit'
+                }
+            }
+        }).then((value) => {
+            switch(value){
+                case 'submit':
+                    tabelas.splice(index, 1);
+                    refreshMap();
+                    swal('Sucesso!', 'Tabela excluida com sucesso!', 'success');
+                    break;
+                default:
+                    swal('Operação cancelada!', 'Operação cancelada com sucesso', 'info');
+                    break;
+            }
+        });
     }
 
-    function addRemoveTotalGasto(type, fnc, index){
+    async function addRemoveTotalGasto(type, fnc, index){
         let value = null;
         
         if(type == 'total'){
             if(fnc == 'add'){
-                value = parseFloat(prompt('Digite quanto você deseja adicionar: '));
+                await swal('Digite quanto você deseja adicionar: ', {
+                    content: 'input'
+                }).then(content  => {
+                    value = parseFloat(content);
+                    console.log(content, value);
+                });
 
                 if(value < 0){
                     swal('ERROR', 'Você não digitou um número positivo!', 'error');
@@ -94,19 +187,25 @@ export default function App({ Component, pageProps }) {
                 }
 
                 tabelas[index].total += value;
+                console.log(value, 'valor no final');
             } else if(fnc == 'remove'){
-                value = parseFloat(prompt('Digite quanto você deseja diminuir: '));
+                await swal('Digite quanto você deseja diminuir: ', {
+                    content: 'input'
+                }).then(content  => {
+                    value = parseFloat(content);
+                    console.log(content, value);
+                });
                 
                 if(value < 0){
-                    alert('ERRO: Você não digitou um número positivo!');
+                    swal('ERROR', 'Você não digitou um número positivo!', 'error');
 
                     return;
                 } if(Number.isNaN(value)){ // usando a função Number.isNaN para checar se o número é NaN ou não
-                    alert('ERRO: É necessário NÚMEROS para fazer a operação.');
+                    swal('ERROR', 'É necessário NÚMEROS para fazer a operação.', 'error');
 
                     return;
                 } if(tabelas[index].total - value < 1){
-                    alert('ERRO: O total não pode ser menor que 1.');
+                    swal('ERROR', 'O total não pode ser menor que 1.', 'error');
 
                     return;
                 }
@@ -115,36 +214,46 @@ export default function App({ Component, pageProps }) {
             }
         } else if(type == 'gasto') { // gasto
             if(fnc == 'add'){
-                value = parseFloat(prompt('Digite quanto você deseja adicionar: '));
+                await swal('Digite quanto você deseja adicionar: ', {
+                    content: 'input'
+                }).then(content  => {
+                    value = parseFloat(content);
+                    console.log(content, value);
+                });
                 
                 if(value < 0){
-                    alert('ERRO: Você não digitou um número positivo!');
+                    swal('ERROR', 'Você não digitou um número positivo!', 'error');
 
                     return;
                 } if(Number.isNaN(value)){ // usando a função Number.isNaN para checar se o número é NaN ou não
-                    alert('ERRO: É necessário NÚMEROS para fazer a operação.');
+                    swal('ERROR', 'É necessário NÚMEROS para fazer a operação.', 'error');
 
                     return;
                 } if(tabelas[index].gasto + value > tabelas[index].total){
-                    alert('ERRO: O valor gasto não pode ser maior que o valor total.');
+                    swal('ERROR', 'O valor gasto não pode ser maior que o valor total.', 'error');
 
                     return;
                 }
 
                 tabelas[index].gasto += value;
             } else if(fnc == 'remove'){
-                value = parseFloat(prompt('Digite quanto você deseja diminuir: '));
+                await swal('Digite quanto você deseja diminuir: ', {
+                    content: 'input'
+                }).then(content  => {
+                    value = parseFloat(content);
+                    console.log(content, value);
+                });
                 
                 if(value < 0){
-                    alert('ERRO: Você não digitou um número positivo!');
+                    swal('ERROR', 'Você não digitou um número positivo!', 'error');
 
                     return;
                 } if(Number.isNaN(value)){ // usando a função Number.isNaN para checar se o número é NaN ou não
-                    alert('ERRO: É necessário NÚMEROS para fazer a operação.');
+                    swal('ERROR', 'É necessário NÚMEROS para fazer a operação.', 'error');
 
                     return;
                 } if(tabelas[index].gasto - value < 0){
-                    alert('ERRO: O valor gasto não pode ser menor que 0.');
+                    swal('ERROR', 'O valor gasto não pode ser menor que 0.', 'error');
 
                     return;
                 }
@@ -157,7 +266,7 @@ export default function App({ Component, pageProps }) {
     }
 
     return (
-        <MainContext.Provider value={[setViewActive, map, setMap, addNewTabela, tabelas, setTabelas, removeTabela, addRemoveTotalGasto]}>
+        <MainContext.Provider value={[setViewActive, map, setMap, addNewTabela, tabelas, setTabelas, removeTabela, addRemoveTotalGasto, eraseTabelas]}>
             <Component {...pageProps} />
         </MainContext.Provider>
     );
