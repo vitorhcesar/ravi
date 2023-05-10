@@ -1,6 +1,6 @@
 import '@/styles/globals.css'
 import Tabela from '@/src/components/Dashboard/TabelaView/tabela'
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import MainContext from '@/contexts/mainContext'
 import swal from 'sweetalert'
 
@@ -21,7 +21,7 @@ export default function App({ Component, pageProps }) {
     const [sobraGlobal, setSobraGlobal] = useState(0);
 
     // Funções
-    async function refreshMap(){ // Função para atualizar o map na tela
+    function refreshMap(){ // Função para atualizar o map na tela
         if(tabelas.length > 0){
             let newMap =  tabelas.map( (item, indice) => <Tabela key={indice} id={indice} name={item.nome} gasto={item.gasto} total={item.total} />);
             setMap(newMap);
@@ -29,10 +29,6 @@ export default function App({ Component, pageProps }) {
         } else {
             setMap('Nenhuma tabela na área de trabalho.')
         }
-    }
-
-    async function asyncMapRefresh(){
-        await refreshMap().then(() => console.log('Refresh dado de modo assincrono.'));
     }
 
     function sobraGlobalCounter(){
@@ -285,7 +281,7 @@ export default function App({ Component, pageProps }) {
         refreshMap();
     }
 
-    // JSON
+    // JSON Management
     useEffect(() => {
         async function eraseInitialTabelas(){
             tabelas.splice(0, tabelas.length);
@@ -300,10 +296,15 @@ export default function App({ Component, pageProps }) {
                     for(var i = 0; i < a.length; i++){
                         tabelas.push(a[i]);
                     }
+                    
+                    if(localStorage.getItem('valorGlobal') !== null){
+                        setValorGlobal(JSON.parse(localStorage.getItem('valorGlobal')));
+                    }
                 }).then(() => {
                     refreshMap();
                     sobraGlobalCounter();
                     console.log(tabelas);
+                    console.log(valorGlobal);
                 });
             } else {
                 console.log('Não existem tabelas');

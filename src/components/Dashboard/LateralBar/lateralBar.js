@@ -13,7 +13,10 @@ const LateralBar = () => {
             <div className='db-tSCtner'>
                 <div className='db-totalInputDiv db-bgRounded bg-pink'>
                     <h1>Total: <span className='text-green'>R$</span></h1>
-                    <input value={valorGlobal} onChange={(e) => setValorGlobal(e.target.value)} />
+                    <input value={valorGlobal} onChange={(e) => {
+                        setValorGlobal(e.target.value);
+                        localStorage.setItem('valorGlobal', JSON.stringify(e.target.value));
+                    }} />
                 </div>
                 <div className='db-bgRounded bg-blue'>
                     <h1>Sobra: <b>R$ {sobraGlobal}</b></h1>
