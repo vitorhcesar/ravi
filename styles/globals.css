@@ -172,6 +172,8 @@ header nav {
 }
 #hero-content h2 {
     font-size: 2.7rem;
+    text-align: justify;
+    padding-right: 3rem;
 }
 #hero-content h1 {
     font-size: 4rem;
@@ -216,7 +218,6 @@ header nav {
 } #project-content p {
     font-size: 2rem;
 
-    width: 800px;
     text-align: justify;
 }
 
@@ -296,7 +297,6 @@ header nav {
 } #como-funciona-content p {
     font-size: 2rem;
 
-    width: 800px;
     text-align: justify;
 }
 
@@ -317,7 +317,6 @@ header nav {
 }
 
 #panel {
-    width: 700px;
     padding: 2rem;
     border-radius: .75rem;
 
@@ -335,6 +334,150 @@ header nav {
 
     padding: 1rem;
     background: var(--verde);
+}
+
+/* MEDIA QUERIES PÁGINA PRINCIPAL */
+@media (max-width: 1470px) {
+    #como-funciona-content img {
+        height: 250px;
+    }
+}
+
+@media (max-width: 1370px) {
+    #pix-area {
+        flex-direction: column;
+    }
+
+    #hero-content h2 {
+        font-size: 2rem;
+    } #money-icon {
+        height: 500px;
+    }
+}
+
+@media (max-width: 1330px) {
+    #como-funciona-content img {
+        height: 200px;
+    }
+}
+
+@media (max-width: 1260px) {
+    #como-funciona-content {
+        gap: 2rem;
+    } #como-funciona-content p {
+        font-size: 1.5rem;
+    }
+
+    #project-content {
+        gap: 2rem;
+    } #project-content p {
+        font-size: 1.5rem;
+    }
+
+    #suporte-content {
+        gap: 2rem;
+    } #panel p {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 1130px) {
+    #como-funciona-content {
+        flex-direction: column;
+        gap: 2rem;
+    }
+}
+
+@media (max-width: 1150px) {
+    #suporte-content {
+        flex-direction: column;
+    }
+
+    #hero-content h2 {
+        font-size: 2rem;
+    } #hero-content h1 {
+        font-size: 3rem;
+    } #money-icon {
+        height: 400px;
+    }
+}
+
+@media (max-width: 900px) {
+    #project-content {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 896px) {
+    header nav {
+        display: none;
+    }
+
+    #hero-content h2 {
+        font-size: 1.5rem;
+    } #hero-content h1 {
+        font-size: 2.5rem;
+    } #money-icon {
+        height: 350px;
+    }
+}
+
+@media (max-width: 800px) {
+    #project-content p {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 760px) {
+    #hero-content h2 {
+        font-size: 1.3rem;
+    } #hero-content h1 {
+        font-size: 2rem;
+    } #money-icon {
+        height: 300px;
+    } #app-button {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 630px) {
+    #money-icon {
+        height: 250px;
+    } #hero {
+        flex-direction: column;
+        gap: 0rem;
+    } #hero-content h2 {
+        font-size: 1.6rem;
+        padding: 1rem;
+    }
+
+    header img {
+        height: 50px;
+    }
+}
+
+@media (max-width: 420px) {
+    #svg-content {
+        gap: 1rem;
+    } #svg-content button {
+        font-size: 1rem;
+    } #svg-content svg {
+        height: 40px;
+    } #vitor-img {
+        height: 150px;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+    }
+
+    #panel p {
+        font-size: 1.3rem;
+    } #pix-info-text {
+        font-size: .8rem;
+    } #pix-area img {
+        height: 250px;
+    }
 }
 
 /* DASHBOARD GLOBAL */
