@@ -226,12 +226,6 @@
     background: rgb(141, 13, 13);
 }
 
-/* @media (max-width: 820px) {
-    .header {
-        flex-direction: column;
-    }
-} */
-
 @media (max-width: 750px) {
     .screen {
         flex-direction: column;
@@ -250,6 +244,10 @@
     .header {
         flex-direction: column;
         min-height: fit-content;
+    }
+
+    .tabela:hover{
+        transform: translateY(0px);
     }
 }
 
