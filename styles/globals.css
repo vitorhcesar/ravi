@@ -108,7 +108,7 @@ html {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Poppins';
+    font-family: system-ui;
 }
 
 /* Body */
@@ -337,535 +337,110 @@ header nav {
     background: var(--verde);
 }
 
-/* DASHBOARD */
-#dashboard {
-    display: flex;
-    height: 100vh;
-
-    overflow: hidden;
-}
-
-/* BARRA LATERAL */
-#db-lateralBar {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-
-    height: 100vh;
-    width: 270px;
-    position: absolute;
-    background: var(--preto);
-
-    overflow: visible;
-
-    color: var(--branco);
-}
-
-.db-logoCtner {
-    display: flex;
-    align-items: center;
-    gap: .5rem;
-    margin-left: 1rem;
-    margin-top: .5rem;
-} .db-logoText {
+/* DASHBOARD GLOBAL */
+.db-lb-buttonSelected, .db-lb-button {
     display: flex;
     align-items: center;
     justify-content: center;
-
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    background: var(--azul);
-    
-    font-size: 2rem;
-}
-
-.db-tSCtner {
-    display: flex;
-    flex-direction: column;
     gap: 1rem;
-} .db-bgRounded {
-    min-width: 330px;
-    width: max-content;
 
-    padding: .5rem;
-    border-top-right-radius: 2rem;
-    border-bottom-right-radius: 2rem;
-
-    text-align: center;
-} .db-bgRounded span {
-    color: var(--verde);
-} .db-bgRounded b {
-    color: var(--preto);
-}
-
-.db-totalInputDiv {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: .4rem;
-} .db-totalInputDiv input {
-    background: transparent;
-    outline: none;
+    padding: 1rem;
     border: none;
-    width: 100px;
+    min-width: 150px;
 
     font-size: 2rem;
-    font-weight: bold;
-    color: var(--verde);
 
-    overflow: visible;
+    cursor: pointer;
+
+    transition: .5s;
+} .db-lb-buttonSelected ion-icon, .db-lb-button ion-icon {
+    font-size: 2.2rem;
+}
+
+.db-lb-button {
+    color: var(--branco);
+
+    background: #242323;
+
+    border-top: 3px solid transparent;
+}
+
+.db-lb-buttonSelected {
+    color: var(--azul);
+
+    background: #0c0c0c;
+    
+    border-top: 3px solid var(--azul);
+}
+
+.db-viewTabelaOn {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 1rem;
+
+    height: fit-content;
+    
+    padding-top: 1rem;
+    margin: 0 auto;
+    padding-bottom: 20rem;
+
+    overflow-y: scroll;
+} .db-viewTabelaOff {
+    display: none;
 }
 
 .db-sobraGlobalPositive {
-    max-width: 300px;
-    
-} .db-sobraGlobalPositive b {
     color: var(--verde);
-}
-.db-sobraGlobalNegative {
-    max-width: 300px;
-    
-} .db-sobraGlobalNegative b {
-    color: red;
+} .db-sobraGlobalNegative {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    color: rgb(177, 30, 30);
 } .db-sobraGlobalNegative::after {
-    content: 'Você esta no negativo! Reveja suas tabelas!';   
-    font-size: .8rem; 
+    content: 'Você está no negativo!';
+
     display: block;
-    color: var(--branco);
-    background: #22222273;
-    border-radius: .2rem;
-    padding: .1rem;
-}
 
-.db-lb-buttons {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-} .db-lb-button, .db-lb-buttonSelected {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    width: 100%;
-    padding: 1rem 1rem;
-
-    outline: none;
-    border: none;
-    background: transparent;
-    
-    font-size: 2.3rem;
-    font-weight: 200;
-
-    transition: .2s ease-out;
-} .db-lb-button ion-icon, .db-lb-buttonSelected ion-icon {
-    font-size: 3.2rem;
-} .db-lb-button {
-    color: var(--branco);
-} .db-lb-buttonSelected {
-    color: var(--azul);
-} .db-lb-button:hover, .db-lb-buttonSelected:hover {
-    background: #222222;
-    cursor: pointer;
-}
-
-/* DASHBOARD VIEWS ON OFF */
-.db-viewTabelaOn {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    flex-wrap: wrap;
-    gap: 3rem;
-    align-items: center;
-
-    padding-right: 2rem;
-
-    overflow-y: scroll;
-}
-.db-viewTabelaOff {
-    display: none;
-}
-.db-viewAnalyticsOn {
-    display: grid;
-}
-.db-viewAnalyticsOff {
-    display: none;
-}
-
-/* TABELA VIEW */
-#db-tabelaView {
-    position: relative;
-    right: calc(-18% - 200px);
-    margin-top: 2rem;
-    padding-bottom: 350px;
-}
-
-.db-tabela {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    width: 300px;
-
-    background: var(--preto);
-
-    color: var(--branco);
-
-    border-radius: 1.2rem;
-
-    transition: .5s ease-out;
-} .db-tabela:hover {
-    transform: translateY(-1px);
-    box-shadow: 2px 2px 3px var(--preto);
-}
-.db-tabela header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    width: 100%;
-    height: min-content;
-    border-radius: 1rem;
-    margin-bottom: 1rem;
-    
-    background: var(--verde);
-}
-.db-tabela header ion-icon {
-    font-size: 1.5rem;
-    align-self: flex-end;
-    margin-right: 1rem;
-
-    transition: .2s;
-} .db-tabela header ion-icon:hover {
-    cursor: pointer;
-    color: var(--rosa);
-}
-.db-tabela header h1 {
-    font-size: 2rem;
-    text-transform: capitalize;
-}
-
-.db-tableDiv {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: .5rem;
-
-    margin-bottom: .7rem;
-}
-.db-tableDiv h2 {
-    font-weight: normal;
-}
-.db-tableDiv h2 span {
-    font-weight: bold;
-    color: var(--verde);
-}
-
-.db-divBtns {
-    display: flex;
-    align-items: center;
-    gap: 1.2rem;
-}
-.db-divBtns button {
     color: var(--branco);
     font-size: .8rem;
 
-    background: var(--verde);
-    outline: none;
-    border: none;
-    border-radius: .75rem;
-    padding: .2rem .5rem;
-
-    transition: .2s ease-out;
-} .db-divBtns button:hover {
-    cursor: pointer;
-    background: #698b1f;
+    background: var(--preto);
+    padding: .2rem .4rem;
+    border-radius: .3rem;
 }
 
-.db-tableSobra {
-    background: #222222;
-    font-size: 1rem;
-    padding: .5rem;
-    border-radius: .75rem;
+.db-viewAnalyticsOn {
+    display: grid;
+
+    padding-top: 1rem;
+} .db-viewAnalyticsOff {
+    display: none;
 }
 
-
-.db-newTableBtn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    color: var(--branco);
-    font-size: 1.2rem;
-    font-weight: 300;
-
-    background: var(--rosa);
-    outline: none;
-    border: none;
-    border-radius: 1.2rem;
-
-    width: 180px;
-    padding: .3rem;
-    
-    transition: .5s ease-out;
-} .db-newTableBtn:hover {
-    cursor: pointer;
-    background: #a83350;
-}
-
-.db-newTableBtnErase {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    color: var(--branco);
-    font-size: 1.2rem;
-    font-weight: 300;
-
-    background: rgb(202, 16, 16);
-    outline: none;
-    border: none;
-    border-radius: 1.2rem;
-
-    width: 180px;
-    padding: .3rem;
-    
-    transition: .5s ease-out;
-} .db-newTableBtnErase:hover {
-    cursor: pointer;
-    background: rgb(145, 18, 18);
-}
-
-.db-divBtnsNewErase {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: .5rem;
-    width: 100%;
-    height: 100%;
-}
-
-/* ANALYTICS VIEW */
-#db-analyticsView {
-    position: absolute;
-    top: 5%;
-    right: calc(50% - 270px);
-}
-
-/* MEDIA QUERYES DASHBOARD */
-@media (max-width: 1550px) {
-    #db-tabelaView {
-        position: relative;
-        right: calc(-18% - 320px);
-        margin-top: 2rem;
-    }
-
+@media (max-width: 1290px) {
     .db-viewTabelaOn {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        flex-wrap: wrap;
-        gap: 3rem;
-        align-items: center;
-        justify-content: center;
-    }
-}
-
-@media (max-width: 1235px) {
-    #db-tabelaView {
-        position: relative;
-        right: calc(-18% - 250px);
-        margin-top: 2rem;
-    }
-
-    .db-viewTabelaOn {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        flex-wrap: wrap;
-        gap: 2rem;
-        align-items: center;
-        justify-content: center;
-
-        padding-right: 2rem;
-
-        overflow-y: scroll;
-    }
-}
-
-@media (max-width: 1130px) {
-    #db-tabelaView {
-        position: relative;
-        right: calc(-18% - 160px);
-        margin-top: 2rem;
-    }
-
-    .db-viewTabelaOn {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        flex-wrap: wrap;
-        gap: 2rem;
-        align-items: center;
-        justify-content: center;
-
-        padding-right: 2rem;
-
-        overflow-y: scroll;
+        grid-template-columns: 1fr 1fr 1fr;
     }
 }
 
 @media (max-width: 1020px) {
-    #db-tabelaView {
-        position: relative;
-        right: calc(-18% - 280px);
-        margin-top: 2rem;
-    }
-
     .db-viewTabelaOn {
-        display: grid;
-        grid-template-columns: 1fr;
-        flex-wrap: wrap;
-        gap: 2rem;
-        align-items: center;
-        justify-content: center;
-
-        padding-right: 2rem;
-
-        overflow-y: scroll;
-    }
-}
-
-@media (max-width: 770px) {
-    #db-tabelaView {
-        position: relative;
-        right: calc(-18% - 230px);
-        margin-top: 2rem;
-    }
-
-    .db-viewTabelaOn {
-        display: grid;
-        grid-template-columns: 1fr;
-        flex-wrap: wrap;
-        gap: 2rem;
-        align-items: center;
-        justify-content: center;
-
-        padding-right: 2rem;
-
-        overflow-y: scroll;
-    }
-}
-
-@media (max-width: 700px) {
-    #dashboard{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-    }
-    #db-lateralBar{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-        gap: .5rem;
-        
-        position: fixed;
-        
-        width: 100%;
-        height: 325px;
-
-        padding-top: 0;
-
-        z-index: 1;
-    }
-
-    .db-tSCtner{
-        display: flex;
-        font-size: 10px;
-        gap: .1rem;
-    }
-    .db-bgRounded {
-        border-radius: 1.2rem;
-        max-width: 100px;
-    }
-
-    .db-lb-buttons {
-        display: flex;
-        flex-direction: row;
-        gap: 0px;
-    } .db-lb-button {
-        font-size: 1rem;
-        align-items: center;
-        justify-content: center;
-        background: #22222265;
-        height: 67px;
-    } .db-lb-button ion-icon {
-        font-size: 2rem;
-    } .db-lb-buttonSelected {
-        background: #222222;
-        box-shadow: 1px 1px 3px var(--preto);
-        align-items: center;
-        justify-content: center;
-        height: 80px;
-    }
-
-    #db-tabelaView {
-        position: relative;
-        top: 310px;
-        left: 0px;
-    }
-
-    .db-viewTabelaOn {
-        display: grid;
         grid-template-columns: 1fr 1fr;
-        flex-wrap: wrap;
-        gap: 2rem;
-        align-items: center;
-        justify-content: center;
-
-        padding-right: .2rem;
-
-        overflow-y: scroll;
     }
 }
 
-@media (max-width: 650px) {
+@media (max-width: 750px) {
+    .db-lb-buttonSelected, .db-lb-button {
+        font-size: 1.2rem;
+    } .db-lb-buttonSelected ion-icon, .db-lb-button ion-icon {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 535px) {
     .db-viewTabelaOn {
-        display: grid;
         grid-template-columns: 1fr;
-        flex-wrap: wrap;
-        gap: 2rem;
-        align-items: center;
-        justify-content: center;
-
-        padding-right: .2rem;
-
-        overflow-y: scroll;
-    }
-}
-
-@media (max-width: 525px) {
-    .db-lb-buttons {
-        display: flex;
-        flex-direction: row;
-        gap: 0px;
-    } .db-lb-button {
-        font-size: 1rem;
-        align-items: center;
-        justify-content: center;
-        background: #22222265;
-        height: 67px;
-    } .db-lb-button ion-icon {
-        font-size: 2rem;
-    } .db-lb-buttonSelected {
-        background: #222222;
-        box-shadow: 1px 1px 3px var(--preto);
-        align-items: center;
-        justify-content: center;
-        font-size: 1rem;
-        height: 80px;
-    } .db-lb-buttonSelected ion-icon{
-        font-size: 2rem;
+        padding-bottom: 20rem;
     }
 }

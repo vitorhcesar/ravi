@@ -1,0 +1,294 @@
+/* DASHBOARD */
+.dashboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background: var(--branco);
+    min-height: 100vh;
+    max-height: 100vh;
+
+    color: var(--branco);
+
+    overflow: hidden;
+}
+
+/* HEADER DO DASHBOARD */
+.header {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+
+    background: var(--preto);
+    min-width: 100%;
+    min-height: 150px;
+
+    padding: 1rem 3rem;
+
+    box-shadow: 1px 1px 2px black;
+}
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+} .logoText {
+    background: var(--azul);
+    padding: 1rem;
+    border-radius: 1rem;
+
+    color: var(--branco);
+}
+
+.totalSobraCtnr {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.totalDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .6rem;
+
+    background: var(--rosa);
+
+    padding: 1rem;
+    border-radius: 1rem;
+}.totalDiv h2 {
+    color: var(--branco);
+    font-size: 1rem;
+} .totalDiv h1 {
+    color: var(--verde);
+    font-size: 1.5rem;
+} .totalDiv input {
+    color: var(--verde);
+    font-size: 1.5rem;
+
+    width: 150px;
+    
+    background: #00000041;
+    outline: none;
+    border: none;
+    border-radius: .5rem;
+} .totalDiv div {
+    display: flex;
+    gap: 1rem;
+    max-width: 200px;
+
+    overflow: hidden;
+}
+
+.sobraDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .6rem;
+
+    background: var(--azul);
+
+    padding: 1rem;
+    border-radius: 1rem;
+} .sobraDiv h1 {
+    font-size: 1.5rem;
+
+    max-width: 200px;
+} .sobraDiv h2 {
+    color: var(--branco);
+    font-size: 1rem;
+}
+
+/* SCREEN */
+.screen {
+    display: flex;
+    justify-content: flex-start;
+    
+    width: 100%;
+
+    overflow: hidden;
+}
+
+/* buttonsDiv */
+.buttonsDiv {
+    display: flex;
+    flex-direction: column;
+
+    min-height: 100vh;
+
+    background: #242323;
+}
+
+/* TABELA */
+.tabela {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 250px;
+    max-width: 290px;
+    border-top-right-radius: 2rem;
+    border-top-left-radius: 2rem;
+    border-bottom-right-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+    padding-bottom: 1.2rem;
+
+    background: var(--preto);
+
+    color: var(--branco);
+
+    transition: .2s ease-out;
+}.tabela:hover {
+    transform: translateY(-5px);
+}
+.tabela header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    border-top-right-radius: 1rem;
+    border-top-left-radius: 1rem;
+
+    background: var(--verde);
+    width: 100%;
+} .tabela header h1 {
+    text-transform: capitalize;
+} .tabela header ion-icon {
+    align-self: flex-end;
+    margin-right: 1rem;
+
+    font-size: 1.3rem;
+} .tabela header ion-icon:hover {
+    cursor: pointer;
+    color: var(--rosa);
+}
+
+.tableDiv{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: .3rem 0;
+} .tableDiv span{
+    color: var(--verde);
+} .tableDiv div{
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+} .tableDiv button {
+    background: var(--verde);
+    color: var(--branco);
+
+    padding: .2rem .5rem;
+    border-radius: .5rem;
+    border: none;
+    outline: none;
+
+    cursor: pointer;
+    
+    transition: .3s;
+} .tableDiv button:hover {
+    background: #578113;
+}
+
+.btnsNewEraseDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.newTableBtn, .eraseTableBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+
+    color: var(--branco);
+    font-size: 1rem;
+
+    border: none;
+    padding: .3rem .8rem;
+    border-radius: .5rem;
+
+    cursor: pointer;
+
+    transition: .2s;
+} .newTableBtn ion-icon, .eraseTableBtn ion-icon {
+    font-size: 1.5rem;
+} .newTableBtn {
+    background: var(--rosa);
+} .newTableBtn:hover {
+    background: #bd395a;
+} .eraseTableBtn {
+    background: rgb(211, 18, 18);
+} .eraseTableBtn:hover {
+    background: rgb(141, 13, 13);
+}
+
+/* @media (max-width: 820px) {
+    .header {
+        flex-direction: column;
+    }
+} */
+
+@media (max-width: 750px) {
+    .screen {
+        flex-direction: column;
+    }
+    
+    .buttonsDiv {
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+        min-height: fit-content;
+    }
+}
+
+@media (max-width: 720px) {
+    .header {
+        flex-direction: column;
+        min-height: fit-content;
+    }
+}
+
+@media (max-width: 580px) {
+    .header {
+        justify-content: space-evenly;
+    }
+
+    .totalSobraCtnr {
+        flex-direction: column;
+    }
+    .buttonsDiv {
+        justify-content: center;
+    } .buttonsDiv button p {
+        display: none;
+    }
+
+    .totalDiv {
+        flex-direction: row;
+    }.totalDiv h1 {
+        font-size: 1.2rem;
+    } .totalDiv input {
+        font-size: 1.2rem;
+    
+        width: 90px;
+    }
+    
+    .sobraDiv {
+        flex-direction: row;
+    } .sobraDiv h1 {
+        font-size: 1.2rem;
+    }
+
+    .logoText {
+        background: var(--azul);
+        padding: .7rem;
+        border-radius: 1rem;
+    
+        color: var(--branco);
+    }
+}
