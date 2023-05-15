@@ -8,8 +8,6 @@
     min-height: 100vh;
 
     color: var(--preto);
-
-    /* overflow: hidden; */
 }
 
 /* SCREEN */
@@ -21,7 +19,6 @@
 
     width: 100%;
     min-height: min-content;
-    /* overflow: hidden; */
 }
 
 /* buttonsDiv */
@@ -46,25 +43,24 @@
     top: 0;
     z-index: 1;
 
-    background: var(--branco);
+    background: var(--azul);
     min-width: 100%;
     min-height: fit-content;
 
     padding: 1rem 3rem;
-
     border-bottom: 2px solid var(--azul);
+
+    box-shadow: 5px 5px 6px rgba(0, 0, 0, 0.637);
 }
 .logo {
     display: flex;
     align-items: center;
     gap: 1rem;
 } .logoText {
-    background: var(--azul);
-    padding: 1rem;
     border-radius: 1rem;
 
     color: var(--branco);
-} .logo ion-icon {
+} .logo button, .logo ion-icon {
     display: none;
 }
 
@@ -114,7 +110,7 @@
     align-items: center;
     gap: .6rem;
 
-    background: var(--azul);
+    background: var(--preto);
 
     padding: 1rem;
     border-radius: 1rem;
@@ -311,20 +307,9 @@
 
 @media (max-width: 535px) {
     .header {
-        display: flex;
-        justify-content: space-between;
-        gap: 1rem;
-        
-        position: sticky;
-
-        background: var(--branco);
-        min-width: 100%;
+        background: var(--azul);
         max-height: 80px;
         overflow: hidden;
-
-        padding: 1rem 3rem;
-
-        border-bottom: 2px solid var(--azul);
     } .headerOn {
         display: flex;
         flex-direction: column;
@@ -334,7 +319,7 @@
         position: sticky;
         top: 0;
 
-        background: var(--branco);
+        background: var(--azul);
         min-width: 100%;
         max-height: fit-content;
 
@@ -343,6 +328,10 @@
         padding: 1rem 3rem;
 
         border-bottom: 2px solid var(--azul);
+    }
+
+    .logo {
+        gap: 0rem;
     }
 
     .logo button {
@@ -354,9 +343,11 @@
         outline: none;
         border: none;
 
-        margin-left: 1.5rem;
+        margin-left: 2rem;
     } .logo ion-icon {
         display: block;
+
+        color: var(--branco);
 
         font-size: 3rem;
     }

@@ -10,7 +10,7 @@ const HeaderDashboard = () => {
         <header id='dashboardHeader' className={styles.header}>
             <div className={styles.logo}>
                 <h1 className={styles.logoText}>RAVÍ</h1>
-                <h2 className='normal text-blue'>Dashboard</h2>
+                <h2 className='normal text-white'>Dashboard</h2>
                 <button id='toggleBtn' onClick={() => toggleHeaderSD()}>
                     <ion-icon name="reorder-three-outline"></ion-icon>
                 </button>

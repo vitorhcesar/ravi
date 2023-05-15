@@ -362,7 +362,7 @@ header nav {
 
     background: #242323;
 
-    border-top: 3px solid transparent;
+    border-bottom: 3px solid transparent;
 }
 
 .db-lb-buttonSelected {
@@ -370,7 +370,7 @@ header nav {
 
     background: #0c0c0c;
     
-    border-top: 3px solid var(--azul);
+    border-bottom: 3px solid var(--azul);
 }
 
 .db-viewTabelaOn {
@@ -404,7 +404,7 @@ header nav {
     color: var(--branco);
     font-size: .8rem;
 
-    background: var(--preto);
+    background: red;
     padding: .2rem .4rem;
     border-radius: .3rem;
 }
