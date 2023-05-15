@@ -325,8 +325,6 @@
         padding: 1rem 3rem;
 
         border-bottom: 2px solid var(--azul);
-
-        animation: closed .5s ease 1;
     } .headerOn {
         display: flex;
         flex-direction: column;
@@ -334,16 +332,17 @@
         gap: 1rem;
         
         position: sticky;
+        top: 0;
 
         background: var(--branco);
         min-width: 100%;
-        min-height: fit-content;
+        max-height: fit-content;
+
+        z-index: 1;
 
         padding: 1rem 3rem;
 
         border-bottom: 2px solid var(--azul);
-
-        animation: openHeader 1s ease 1;
     }
 
     .logo button {
