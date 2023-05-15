@@ -3,6 +3,7 @@ import Tabela from '@/src/components/Dashboard/TabelaView/tabela'
 import React, { useState, useEffect } from 'react'
 import MainContext from '@/contexts/mainContext'
 import swal from 'sweetalert'
+import styles from '@/styles/dashboard.module.css'
 
 export default function App({ Component, pageProps }) {
     // Variáveis e estados
@@ -301,6 +302,19 @@ export default function App({ Component, pageProps }) {
         refreshMap();
     }
 
+    function toggleHeaderSD(){
+        if(document.getElementById('dashboard')){
+            let btn = document.getElementById('toggleBtn');
+            let header = document.getElementById('dashboardHeader');
+
+            if(header.className == styles.header){
+                header.className = styles.headerOn;
+            } else if (header.className == styles.headerOn){
+                header.className = styles.header;
+            }
+        }
+    }
+
     // JSON Management
     useEffect(() => {
         async function eraseInitialTabelas(){
@@ -365,7 +379,7 @@ export default function App({ Component, pageProps }) {
 
 
     return (
-        <MainContext.Provider value={[setViewActive, map, setMap, addNewTabela, tabelas, setTabelas, removeTabela, addRemoveTotalGasto, eraseTabelas, valorGlobal, setValorGlobal, sobraGlobal, setSobraGlobal]}>
+        <MainContext.Provider value={[setViewActive, map, setMap, addNewTabela, tabelas, setTabelas, removeTabela, addRemoveTotalGasto, eraseTabelas, valorGlobal, setValorGlobal, sobraGlobal, setSobraGlobal, toggleHeaderSD]}>
             <Component {...pageProps} />
         </MainContext.Provider>
     );

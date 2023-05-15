@@ -108,7 +108,7 @@ html {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: system-ui;
+    font-family: 'Poppins';
 }
 
 /* Body */
@@ -375,7 +375,7 @@ header nav {
 
 .db-viewTabelaOn {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     gap: 1rem;
 
     height: max-content;
@@ -383,8 +383,7 @@ header nav {
     padding-top: 1rem;
     margin: 0 auto;
     padding-bottom: 20rem;
-
-    overflow-y: scroll;
+    padding-left: 15rem;
 } .db-viewTabelaOff {
     display: none;
 }
@@ -418,19 +417,30 @@ header nav {
     display: none;
 }
 
-@media (max-width: 1290px) {
+@media (max-width: 1570px) {
+    .db-viewTabelaOn {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+}
+
+@media (max-width: 1310px) {
     .db-viewTabelaOn {
         grid-template-columns: 1fr 1fr 1fr;
     }
 }
 
-@media (max-width: 1020px) {
+@media (max-width: 1050px) {
     .db-viewTabelaOn {
         grid-template-columns: 1fr 1fr;
     }
 }
 
-@media (max-width: 750px) {
+@media (max-width: 760px) {
+    .db-viewTabelaOn {
+        padding-left: 0rem;
+        padding-top: 7rem;
+    }
+
     .db-lb-buttonSelected, .db-lb-button {
         font-size: 1.2rem;
     } .db-lb-buttonSelected ion-icon, .db-lb-button ion-icon {

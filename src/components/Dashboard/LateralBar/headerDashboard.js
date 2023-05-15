@@ -4,13 +4,16 @@ import swal from 'sweetalert'
 import styles from '@/styles/dashboard.module.css'
 
 const HeaderDashboard = () => {
-    const [ setViewActive, map, setMap, addNewTabela, tabelas, setTabelas, removeTabela, addRemoveTotalGasto, eraseTabelas, valorGlobal, setValorGlobal, sobraGlobal, setSobraGlobal ] = useContext(MainContext);
+    const [ setViewActive, map, setMap, addNewTabela, tabelas, setTabelas, removeTabela, addRemoveTotalGasto, eraseTabelas, valorGlobal, setValorGlobal, sobraGlobal, setSobraGlobal, toggleHeaderSD ] = useContext(MainContext);
 
     return (
-        <header className={styles.header}>
+        <header id='dashboardHeader' className={styles.header}>
             <div className={styles.logo}>
                 <h1 className={styles.logoText}>RAVÍ</h1>
                 <h2 className='normal text-blue'>Dashboard</h2>
+                <button id='toggleBtn' onClick={() => toggleHeaderSD()}>
+                    <ion-icon name="reorder-three-outline"></ion-icon>
+                </button>
             </div>
             <div className={styles.totalSobraCtnr}>
                 <div className={styles.totalDiv}>
