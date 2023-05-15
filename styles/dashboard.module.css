@@ -5,10 +5,9 @@
     align-items: center;
 
     background: var(--branco);
-    min-height: 100vh;
     max-height: 100vh;
 
-    color: var(--branco);
+    color: var(--preto);
 
     overflow: hidden;
 }

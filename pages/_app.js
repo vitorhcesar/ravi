@@ -32,7 +32,7 @@ export default function App({ Component, pageProps }) {
     }
 
     async function sobraGlobalCounter(){
-        if(document){
+        if(document.getElementById('dashboard')!== null){
             let tabelasValue = 0;
             let sobraObject = document.getElementById('db-sobraGlobal');
             
