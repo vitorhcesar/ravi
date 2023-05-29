@@ -169,14 +169,15 @@ header nav {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    max-width: 50%;
 }
 #hero-content h2 {
-    font-size: 2.7rem;
-    text-align: justify;
+    font-size: 1.5rem;
     padding-right: 3rem;
 }
 #hero-content h1 {
-    font-size: 4rem;
+    font-size: 4.5rem;
 }
 
 #app-button {
@@ -217,8 +218,6 @@ header nav {
     gap: 10rem;
 } #project-content p {
     font-size: 2rem;
-
-    text-align: justify;
 }
 
 .card {
@@ -296,8 +295,6 @@ header nav {
     gap: 10rem;
 } #como-funciona-content p {
     font-size: 2rem;
-
-    text-align: justify;
 }
 
 /* Seção Suporte-nos */
@@ -337,6 +334,12 @@ header nav {
 }
 
 /* MEDIA QUERIES PÁGINA PRINCIPAL */
+@media (max-width: 1630px) {
+    #hero-content h1 {
+        font-size: 4rem;
+    }
+}
+
 @media (max-width: 1470px) {
     #como-funciona-content img {
         height: 250px;
@@ -349,7 +352,9 @@ header nav {
     }
 
     #hero-content h2 {
-        font-size: 2rem;
+        font-size: 1.3rem;
+    } #hero-content h1 {
+        font-size: 3rem;
     } #money-icon {
         height: 500px;
     }
@@ -381,24 +386,24 @@ header nav {
     }
 }
 
-@media (max-width: 1130px) {
-    #como-funciona-content {
-        flex-direction: column;
-        gap: 2rem;
-    }
-}
-
 @media (max-width: 1150px) {
     #suporte-content {
         flex-direction: column;
     }
 
     #hero-content h2 {
-        font-size: 2rem;
+        font-size: 1.2rem;
     } #hero-content h1 {
-        font-size: 3rem;
+        font-size: 2.6rem;
     } #money-icon {
         height: 400px;
+    }
+}
+
+@media (max-width: 1130px) {
+    #como-funciona-content {
+        flex-direction: column;
+        gap: 2rem;
     }
 }
 
@@ -414,9 +419,9 @@ header nav {
     }
 
     #hero-content h2 {
-        font-size: 1.5rem;
+        font-size: 1.1rem;
     } #hero-content h1 {
-        font-size: 2.5rem;
+        font-size: 2rem;
     } #money-icon {
         height: 350px;
     }
@@ -430,7 +435,7 @@ header nav {
 
 @media (max-width: 760px) {
     #hero-content h2 {
-        font-size: 1.3rem;
+        font-size: 1rem;
     } #hero-content h1 {
         font-size: 2rem;
     } #money-icon {
@@ -447,8 +452,12 @@ header nav {
         flex-direction: column;
         gap: 0rem;
     } #hero-content h2 {
-        font-size: 1.6rem;
+        font-size: 1.2rem;
         padding: 1rem;
+    } #hero-content h1 {
+        font-size: 2.2rem;
+    } #hero-content {
+        max-width: 80%;
     }
 
     header img {
@@ -477,6 +486,14 @@ header nav {
         font-size: .8rem;
     } #pix-area img {
         height: 250px;
+    }
+}
+
+@media (max-width: 375px) {
+    #hero-content h2 {
+        font-size: 1rem;
+    } #hero-content h1 {
+        font-size: 2rem;
     }
 }
 

@@ -1,9 +1,41 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios';
 
 const ProjectSection = () => {
+    const [data, setData] = useState();
+    const [isLoading, setIsLoading] = useState(true);
+
     const goToPage = (url) => {
         window.open(url, '_blank');
     }
+
+    function showAvatar(){
+        if(isLoading){
+            return <h1>Carregando conteúdo...</h1>
+        } else if(!isLoading){
+            return <img id='vitor-img' src={data.avatar_url} />
+        } else if(isLoading == null){
+            return <h1>Erro ao fazer requisição de imagem.</h1>
+        }
+    }
+
+    useEffect(() => {
+        axios.get('https://api.github.com/users/yondv')
+        .then(response => {
+            // console.log(response.data);
+            setData(response.data);
+        })
+        .catch(error => {
+            // console.error('Error fetching data: ', error);
+            setIsLoading(null);
+        })
+        .finally(() => {
+            setIsLoading(false);
+            // console.log('Fetch terminado com sucesso!');
+            // console.log(data, isLoading);
+            showAvatar();
+        });
+    }, [isLoading]);
 
     return (
         <section id='project-section'>
@@ -16,7 +48,7 @@ const ProjectSection = () => {
                 <p className='regular'>O projeto veio em mente quando percebi que fazer as mesmas contas tomava muito do meu tempo, logo, para organizar minhas planilhas financeiras desenvolvi um app online em que todos podem fazer sua planilha de forma simples, automática e gratuita.</p>
                 <div className='card'>
                     <div id='social-card'>
-                        <img id='vitor-img' src='vitor.jpg' />
+                        {showAvatar()}
                         <h3 className='normal'>Desenvolvedor: Vítor Hugo</h3>
                     </div>
                     <div id='svg-content'>

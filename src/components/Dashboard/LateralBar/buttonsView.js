@@ -3,7 +3,7 @@ import React, { useContext } from 'react'
 import styles from '@/styles/dashboard.module.css'
 
 const ButtonsView = () => {
-    const [ setViewActive, map, setMap, addNewTabela, tabelas, setTabelas, removeTabela, addRemoveTotalGasto, eraseTabelas, valorGlobal, setValorGlobal, sobraGlobal, setSobraGlobal ] = useContext(MainContext);
+    const [ setViewActive, addNewTabela, tabelas, setTabelas, removeTabela, addRemoveTotalGasto, eraseTabelas, valorGlobal, setValorGlobal, sobraGlobal, setSobraGlobal ] = useContext(MainContext);
 
     return (
         <div className={styles.buttonsDiv}>

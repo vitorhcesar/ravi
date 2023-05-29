@@ -3,13 +3,16 @@ import MainContext from '@/contexts/mainContext';
 import styles from '@/styles/dashboard.module.css'
 
 const Tabela = ( {id, name, gasto, total} ) => {
-    const [ setViewActive, map, setMap, addNewTabela, tabelas, setTabelas, removeTabela, addRemoveTotalGasto ] = useContext(MainContext);
+    const [ setViewActive, addNewTabela, tabelas, setTabelas, removeTabela, addRemoveTotalGasto, eraseTabelas, valorGlobal, setValorGlobal, sobraGlobal, setSobraGlobal, toggleHeaderSD, editTableName ] = useContext(MainContext);
 
     return (
         <div className={styles.tabela}>
             <header>
-                <ion-icon onClick={() => removeTabela(id)} name="trash-outline"></ion-icon>
-                <h1>{name}</h1>
+                <ion-icon onClick={() => removeTabela(id)} name="trash"></ion-icon>
+                <h1>
+                    {name}
+                    <ion-icon onClick={() => editTableName(id)} name="create"></ion-icon>
+                </h1>
             </header>
             <div className={styles.tableDiv}>
                 <h2>Gasto <span>R$ {gasto}</span></h2>
@@ -25,7 +28,7 @@ const Tabela = ( {id, name, gasto, total} ) => {
                     <button onClick={() => addRemoveTotalGasto('total', 'add', id)}>Adicionar</button>
                 </div>
             </div>
-            <h2 className='db-tableSobra'>Sobram <b className='text-pink'>R$ {total - gasto}</b></h2>
+            <h2 className='db-tableSobra'>Sobram <b className='text-pink'>R$ {(total - gasto).toFixed(2)}</b></h2>
         </div>
     );
 }

@@ -2,13 +2,14 @@ import React, { useContext, useEffect } from 'react';
 import * as ReactDOM from 'react-dom';
 import MainContext from '@/contexts/mainContext';
 import styles from '@/styles/dashboard.module.css'
+import Tabela from './tabela';
 
 const TabelaView = () => {
-    const [ setViewActive, map, setMap, addNewTabela, tabelas, setTabelas, removeTabela, addRemoveTotalGasto, eraseTabelas ] = useContext(MainContext);
+    const [ setViewActive, addNewTabela, tabelas, setTabelas, removeTabela, addRemoveTotalGasto, eraseTabelas ] = useContext(MainContext);
 
     return (
         <section id='db-tabelaView' className='db-viewTabelaOn'>
-            { map }
+            { tabelas.map( (item, indice) => <Tabela key={indice} id={indice} name={item.nome} gasto={item.gasto} total={item.total} />) }
             <div className={styles.btnsNewEraseDiv}>
                 <button onClick={() => addNewTabela()} className={styles.newTableBtn}>
                     Nova tabela

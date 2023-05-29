@@ -1,39 +1,29 @@
 import '@/styles/globals.css'
-import Tabela from '@/src/components/Dashboard/TabelaView/tabela'
 import React, { useState, useEffect } from 'react'
 import MainContext from '@/contexts/mainContext'
 import swal from 'sweetalert'
 import styles from '@/styles/dashboard.module.css'
 
+class Table {
+    nome;
+    total;
+    gasto;
+    constructor(nome, total, gasto){
+        this.nome = nome;
+        this.total = total;
+        this.gasto = gasto;
+    }
+}
+
 export default function App({ Component, pageProps }) {
     // Variáveis e estados
     const [viewActive, setViewActive] = useState('tabelas');
-    const [tabelas, setTabelas] = useState([{
-        nome: 'Transporte',
-        total: 400,
-        gasto: 0
-    }, {
-        nome: 'Comida',
-        total: 600,
-        gasto: 200
-    }]);
-    const [map, setMap] = useState(tabelas.map( (item, indice) => <Tabela key={indice} id={indice} name={item.nome} gasto={item.gasto} total={item.total} />));
+    const [tabelas, setTabelas] = useState([new Table('Transporte', 400, 0), new Table('Comida', 600, 200)]);
     const [valorGlobal, setValorGlobal] = useState(1000);
     const [sobraGlobal, setSobraGlobal] = useState(0);
 
-    // Funções
-    function refreshMap(){ // Função para atualizar o map na tela
-        if(tabelas.length > 0){
-            let newMap =  tabelas.map( (item, indice) => <Tabela key={indice} id={indice} name={item.nome} gasto={item.gasto} total={item.total} />);
-            setMap(newMap);
-            console.log('Map refresh');
-        } else {
-            setMap('Nenhuma tabela na área de trabalho.')
-        }
-    }
-
     async function sobraGlobalCounter(){
-        if(document.getElementById('dashboard')!== null){
+        if(document.getElementById('dashboard') !== null){
             let tabelasValue = 0;
             let sobraObject = document.getElementById('db-sobraGlobal');
             
@@ -70,19 +60,13 @@ export default function App({ Component, pageProps }) {
 
                     return null;
                 } else{
-                    let limit = tabelas.length;
-                    for(var i = 0; i < limit; i++){
-                        tabelas.pop();
-                    }
+                    setTabelas(new Array);
                     
                     return true;
                 }
             }).then((value) => {
                 if(value == true){
-                    refreshMap();
                     sobraGlobalCounter(); // Atualizando sobra
-                    localStorage.setItem('tabelas', JSON.stringify(tabelas));
-                    console.log('Tabela adicionada ao localStorage');
     
                     swal('Sucesso!', 'A área de trabalho agora está limpa e não possui tabelas!', 'success', {
                         button: 'Ok!'
@@ -140,16 +124,10 @@ export default function App({ Component, pageProps }) {
                     return;
                 } else{
                     gasto = parseFloat(value);
-    
-                    tabelas.push({ // Fazendo push nas tabelas
-                        nome: nome,
-                        total: total,
-                        gasto: gasto
-                    });
-            
-                    refreshMap(); // Atualizando o map na tela
-                    localStorage.setItem('tabelas', JSON.stringify(tabelas));
-                    console.log('Tabela adicionada ao localStorage');
+
+                    let newTable = new Table(nome, total, gasto);
+                    // console.log(newTable);
+                    setTabelas([...tabelas, newTable]);
 
                     let a = new Promise(() => {
                         sobraGlobalCounter(); // Atualizando sobra
@@ -179,11 +157,13 @@ export default function App({ Component, pageProps }) {
         }).then((value) => {
             switch(value){
                 case 'submit':
-                    tabelas.splice(index, 1);
-                    refreshMap();
+                    let filteredTables = tabelas.filter((e, id) => {
+                        if(id != index){
+                            return e;
+                        }
+                    });
+                    setTabelas(filteredTables);
                     sobraGlobalCounter(); // Atualizando sobra
-                    localStorage.setItem('tabelas', JSON.stringify(tabelas));
-                    console.log('Tabela adicionada ao localStorage');
                     swal('Sucesso!', 'Tabela excluida com sucesso!', 'success');
                     break;
                 default:
@@ -191,6 +171,43 @@ export default function App({ Component, pageProps }) {
                     break;
             }
         });
+    }
+
+    async function editTableName(index){
+        let newName = null;
+
+        await swal({
+            text: 'Digite o novo nome da Tabela',
+            content: 'input',
+            icon: 'info',
+        })
+        .then((value) => {
+            if((value == '') || (value == null) || (value == undefined)){
+                swal('Nome inválido!', 'O nome está vazio! Digite um nome válido.', 'error');
+                return false;
+            } else{
+                newName = value;
+                return true;
+            }
+        })
+        .then((sucess) => {
+            if(sucess){
+                let filteredTable = tabelas.filter((e, id) => {
+                    if(index == id){
+                        e.nome = newName;
+    
+                        return e;
+                    } else{
+                        return e;
+                    }
+                });
+    
+                setTabelas(filteredTable);
+                swal('Nome alterado', 'O nome foi alterado com sucesso!', 'success');
+            } else{
+                swal('Operação cancelada', 'Operação cancelada com sucesso e o nome não foi alterado!', 'info');
+            }
+        })
     }
 
     async function addRemoveTotalGasto(type, fnc, index){
@@ -215,7 +232,16 @@ export default function App({ Component, pageProps }) {
                     return;
                 }
 
-                tabelas[index].total += value;
+                let filteredTables = tabelas.filter((e, id) => {
+                    if(id == index){
+                        e.total += value;
+
+                        return e;
+                    } else{
+                        return e;
+                    }
+                });
+                setTabelas(filteredTables);
                 sobraGlobalCounter();
                 console.log(value, 'valor no final');
             } else if(fnc == 'remove'){
@@ -244,7 +270,16 @@ export default function App({ Component, pageProps }) {
                     return;
                 }
 
-                tabelas[index].total -= value;
+                let filteredTables = tabelas.filter((e, id) => {
+                    if(id == index){
+                        e.total -= value;
+
+                        return e;
+                    } else{
+                        return e;
+                    }
+                });
+                setTabelas(filteredTables);
                 sobraGlobalCounter();
             }
         } else if(type == 'gasto') { // gasto
@@ -270,7 +305,16 @@ export default function App({ Component, pageProps }) {
                     return;
                 }
 
-                tabelas[index].gasto += value;
+                let filteredTables = tabelas.filter((e, id) => {
+                    if(id == index){
+                        e.gasto += value;
+
+                        return e;
+                    } else{
+                        return e;
+                    }
+                });
+                setTabelas(filteredTables);
             } else if(fnc == 'remove'){
                 await swal('Digite quanto você deseja diminuir: ', {
                     content: 'input'
@@ -293,13 +337,18 @@ export default function App({ Component, pageProps }) {
                     return;
                 }
 
-                tabelas[index].gasto -= value;
+                let filteredTables = tabelas.filter((e, id) => {
+                    if(id == index){
+                        e.gasto -= value;
+
+                        return e;
+                    } else{
+                        return e;
+                    }
+                });
+                setTabelas(filteredTables);
             }
         }
-
-        localStorage.setItem('tabelas', JSON.stringify(tabelas));
-        console.log('Tabela adicionada ao localStorage');
-        refreshMap();
     }
 
     function toggleHeaderSD(){
@@ -315,38 +364,27 @@ export default function App({ Component, pageProps }) {
         }
     }
 
-    // JSON Management
+    // Check JSON Management on Start-up
     useEffect(() => {
-        async function eraseInitialTabelas(){
-            tabelas.splice(0, tabelas.length);
+        if(localStorage.getItem('tabelas') !== null){
+            setTabelas(JSON.parse(localStorage.getItem('tabelas')));
+        } else {
+            console.log('Não existem tabelas');
         }
-
-        async function letsGo(){
-            if(localStorage.getItem('tabelas') !== null){
-                await eraseInitialTabelas().then(() => {
-                    // setTabelas(JSON.parse(localStorage.getItem('tabelas')));
-                    const a = JSON.parse(localStorage.getItem('tabelas'));
-
-                    for(var i = 0; i < a.length; i++){
-                        tabelas.push(a[i]);
-                    }
-                    
-                    if(localStorage.getItem('valorGlobal') !== null){
-                        setValorGlobal(JSON.parse(localStorage.getItem('valorGlobal')));
-                    }
-                }).then(() => {
-                    refreshMap();
-                    sobraGlobalCounter();
-                    console.log(tabelas);
-                    console.log(valorGlobal);
-                });
-            } else {
-                console.log('Não existem tabelas');
-            }
+        if(localStorage.getItem('valorGlobal') !== null){
+            setValorGlobal(JSON.parse(localStorage.getItem('valorGlobal')));
+        } else {
+            console.log('Não existe valor global');
         }
-
-        letsGo();
     }, []);
+
+    useEffect(() => {
+        const tablesJSON = JSON.stringify(tabelas);
+        // console.log(tablesJSON);
+
+        localStorage.setItem('tabelas', tablesJSON);
+        console.log('Efeito colateral JSON ativado');
+    }, [tabelas]);
 
     // Use Effects
     useEffect(() => {
@@ -379,7 +417,7 @@ export default function App({ Component, pageProps }) {
 
 
     return (
-        <MainContext.Provider value={[setViewActive, map, setMap, addNewTabela, tabelas, setTabelas, removeTabela, addRemoveTotalGasto, eraseTabelas, valorGlobal, setValorGlobal, sobraGlobal, setSobraGlobal, toggleHeaderSD]}>
+        <MainContext.Provider value={[setViewActive, addNewTabela, tabelas, setTabelas, removeTabela, addRemoveTotalGasto, eraseTabelas, valorGlobal, setValorGlobal, sobraGlobal, setSobraGlobal, toggleHeaderSD, editTableName]}>
             <Component {...pageProps} />
         </MainContext.Provider>
     );

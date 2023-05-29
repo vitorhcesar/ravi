@@ -1,15 +1,18 @@
+import Link from 'next/link';
 import MainContext from '@/contexts/mainContext'
 import React, { useContext } from 'react'
 import swal from 'sweetalert'
 import styles from '@/styles/dashboard.module.css'
 
 const HeaderDashboard = () => {
-    const [ setViewActive, map, setMap, addNewTabela, tabelas, setTabelas, removeTabela, addRemoveTotalGasto, eraseTabelas, valorGlobal, setValorGlobal, sobraGlobal, setSobraGlobal, toggleHeaderSD ] = useContext(MainContext);
+    const [ setViewActive, addNewTabela, tabelas, setTabelas, removeTabela, addRemoveTotalGasto, eraseTabelas, valorGlobal, setValorGlobal, sobraGlobal, setSobraGlobal, toggleHeaderSD ] = useContext(MainContext);
 
     return (
         <header id='dashboardHeader' className={styles.header}>
             <div className={styles.logo}>
-                <h1 className={styles.logoText}>RAVÍ</h1>
+                <Link className={styles.logoTextLink} href='/'>
+                    <h1 className={styles.logoText}>RAVÍ</h1>
+                </Link>
                 <h2 className='normal text-white'>Dashboard</h2>
                 <button id='toggleBtn' onClick={() => toggleHeaderSD()}>
                     <ion-icon name="reorder-three-outline"></ion-icon>
