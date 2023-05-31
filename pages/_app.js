@@ -21,6 +21,7 @@ export default function App({ Component, pageProps }) {
     const [tabelas, setTabelas] = useState([new Table('Transporte', 400, 0), new Table('Comida', 600, 200)]);
     const [valorGlobal, setValorGlobal] = useState(1000);
     const [sobraGlobal, setSobraGlobal] = useState(0);
+    const [dashboardIsLoading, setDashboardIsLoading] = useState(true);
 
     async function sobraGlobalCounter(){
         if(document.getElementById('dashboard') !== null){
@@ -378,10 +379,10 @@ export default function App({ Component, pageProps }) {
         }
     }, []);
 
+    // Always refresh local storage
     useEffect(() => {
         const tablesJSON = JSON.stringify(tabelas);
         // console.log(tablesJSON);
-
         localStorage.setItem('tabelas', tablesJSON);
         console.log('Efeito colateral JSON ativado');
     }, [tabelas]);
@@ -417,7 +418,7 @@ export default function App({ Component, pageProps }) {
 
 
     return (
-        <MainContext.Provider value={[setViewActive, addNewTabela, tabelas, setTabelas, removeTabela, addRemoveTotalGasto, eraseTabelas, valorGlobal, setValorGlobal, sobraGlobal, setSobraGlobal, toggleHeaderSD, editTableName]}>
+        <MainContext.Provider value={[setViewActive, addNewTabela, tabelas, setTabelas, removeTabela, addRemoveTotalGasto, eraseTabelas, valorGlobal, setValorGlobal, sobraGlobal, setSobraGlobal, toggleHeaderSD, editTableName, dashboardIsLoading, setDashboardIsLoading]}>
             <Component {...pageProps} />
         </MainContext.Provider>
     );

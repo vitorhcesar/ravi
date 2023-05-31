@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from 'react';
-import * as ReactDOM from 'react-dom';
 import MainContext from '@/contexts/mainContext';
 import styles from '@/styles/dashboard.module.css'
 import Tabela from './tabela';
