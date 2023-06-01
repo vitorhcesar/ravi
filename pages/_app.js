@@ -369,12 +369,16 @@ export default function App({ Component, pageProps }) {
     useEffect(() => {
         if(localStorage.getItem('tabelas') !== null){
             setTabelas(JSON.parse(localStorage.getItem('tabelas')));
+            setDashboardIsLoading(false);
         } else {
+            setDashboardIsLoading(false);
             console.log('Não existem tabelas');
         }
         if(localStorage.getItem('valorGlobal') !== null){
+            setDashboardIsLoading(false);
             setValorGlobal(JSON.parse(localStorage.getItem('valorGlobal')));
         } else {
+            setDashboardIsLoading(false);
             console.log('Não existe valor global');
         }
     }, []);
@@ -384,7 +388,9 @@ export default function App({ Component, pageProps }) {
         const tablesJSON = JSON.stringify(tabelas);
         // console.log(tablesJSON);
         localStorage.setItem('tabelas', tablesJSON);
-        console.log('Efeito colateral JSON ativado');
+
+        sobraGlobalCounter();
+        console.log('Efeito colateral JSON ativado, localStorage atualizado e sobra atualizada!');
     }, [tabelas]);
 
     // Use Effects
@@ -415,7 +421,6 @@ export default function App({ Component, pageProps }) {
     useEffect(() => {
         sobraGlobalCounter();
     }, [valorGlobal]);
-
 
     return (
         <MainContext.Provider value={[setViewActive, addNewTabela, tabelas, setTabelas, removeTabela, addRemoveTotalGasto, eraseTabelas, valorGlobal, setValorGlobal, sobraGlobal, setSobraGlobal, toggleHeaderSD, editTableName, dashboardIsLoading, setDashboardIsLoading]}>

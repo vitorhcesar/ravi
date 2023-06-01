@@ -4,18 +4,9 @@ import TabelaView from '@/src/components/Dashboard/TabelaView/tabelaView';
 import Head from 'next/head';
 import styles from '@/styles/dashboard.module.css'
 import ButtonsView from '@/src/components/Dashboard/LateralBar/buttonsView';
-import { useContext, useEffect } from 'react';
-import MainContext from '@/contexts/mainContext';
 import Loading from '@/src/components/Loading/loading';
 
 const App = () => {
-    const [ setViewActive, addNewTabela, tabelas, setTabelas, removeTabela, addRemoveTotalGasto, eraseTabelas, valorGlobal, setValorGlobal, sobraGlobal, setSobraGlobal, toggleHeaderSD, editTableName, dashboardIsLoading, setDashboardIsLoading ] = useContext(MainContext);
-
-    useEffect(() => {
-        setDashboardIsLoading(false);
-        // console.log('App inicializado: ', dashboardIsLoading);
-    }, []);
-
     return (
         <div id='dashboard' className={styles.dashboard}>
             <Head>

@@ -14,7 +14,7 @@ export default function Spinner(){
                 <div></div>
                 <div></div>
             </div>
-            <h1>Carregando aplicação</h1>
+            <h1>Carregando conteúdo</h1>
         </div>
     );
 }

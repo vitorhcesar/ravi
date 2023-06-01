@@ -570,9 +570,18 @@ header nav {
 }
 
 .db-viewAnalyticsOn {
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
 
+    height: 100%;
+    width: 100%;
+    
     padding-top: 1rem;
+    margin: 0 auto;
+    padding-bottom: 20rem;
+    padding-left: 15rem;
 } .db-viewAnalyticsOff {
     display: none;
 }
@@ -605,6 +614,11 @@ header nav {
         font-size: 1.2rem;
     } .db-lb-buttonSelected ion-icon, .db-lb-button ion-icon {
         font-size: 2rem;
+    }
+
+    .db-viewAnalyticsOn {
+        padding-top: 5rem;
+        padding-left: 0rem;
     }
 }
 
