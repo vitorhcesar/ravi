@@ -15,14 +15,14 @@ const Tabela = ( {id, name, gasto, total} ) => {
                 </h1>
             </header>
             <div className={styles.tableDiv}>
-                <h2>Gasto <span>R$ {gasto}</span></h2>
+                <h2>Gasto <span>R$ {gasto.toFixed(2)}</span></h2>
                 <div>
                     <button onClick={() => addRemoveTotalGasto('gasto', 'remove', id)}>Diminuir</button>
                     <button onClick={() => addRemoveTotalGasto('gasto', 'add', id)}>Adicionar</button>
                 </div>
             </div>
             <div className={styles.tableDiv}>
-                <h2>Total <span>R$ {total}</span></h2>
+                <h2>Total <span>R$ {total.toFixed(2)}</span></h2>
                 <div>
                     <button onClick={() => addRemoveTotalGasto('total', 'remove', id)}>Diminuir</button>
                     <button onClick={() => addRemoveTotalGasto('total', 'add', id)}>Adicionar</button>

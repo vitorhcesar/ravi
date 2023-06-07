@@ -15,10 +15,10 @@ const App = () => {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/favicon.svg" />
             </Head>
+            <Loading />
             <HeaderDashboard />
             <div className={styles.screen}>
                 <ButtonsView />
-                <Loading />
                 <TabelaView />
                 <AnalyticsView />
             </div>

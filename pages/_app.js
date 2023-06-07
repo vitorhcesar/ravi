@@ -174,6 +174,60 @@ export default function App({ Component, pageProps }) {
         });
     }
 
+    async function refreshDashboard(){
+        async function doRefresh(){
+            // Pegar valor gasto de cada tabela.
+            let totalExpended = 0;
+            tabelas.map((e) => {
+                totalExpended += e.gasto;
+            });
+
+            if(totalExpended > 0){
+                // Debitar total de valores gasto no total da conta
+                setValorGlobal(valorGlobal - totalExpended);
+                
+                // Atualizar Tabelas para terem sobra 0
+                let newTables = tabelas.map(e => {
+                    e.total = e.total - e.gasto;
+                    e.gasto = 0;
+    
+                    return e;
+                });
+                setTabelas(newTables);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        if(tabelas.length == 0){
+            swal('Tabelas insuficientes!', 'Operação cancelada pois não existem tabelas na Dasboard!', 'error');
+            return;
+        }
+        
+        await swal('Essa ação é importante!', 'Você realmente quer atualizar sua Dashboard? Isso vai remover todas as sobras e debita-lás no seu total. Recomendamos fazer isso apenas em caso de diferenças no valor total da conta.', 'info', {
+            buttons: {
+                cancel: 'Cancelar',
+                default: 'Prosseguir'
+            }
+        })
+        .then(async yes => {
+            if(yes){
+                await doRefresh()
+                .then( refreshed => {
+                    if(refreshed){
+                        swal('Dashboard atualizada', 'Sua Dashboard foi atualizada com sucesso!', 'success');
+                        return;
+                    }
+                    swal('Valor gasto insuficiente', 'Sua Dashboard não possui gastos, por isso é impossível atualizar sua Dashboard!', 'error');
+                });
+            } else {
+                swal('Operação Cancelada', 'Operação cancelada com sucesso!', 'info');
+            }
+        });
+    }
+
     async function editTableName(index){
         let newName = null;
 
@@ -393,6 +447,10 @@ export default function App({ Component, pageProps }) {
         console.log('Efeito colateral JSON ativado, localStorage atualizado e sobra atualizada!');
     }, [tabelas]);
 
+    useEffect(() => {
+        localStorage.setItem('valorGlobal', JSON.stringify(valorGlobal));
+    }, [valorGlobal]);
+
     // Use Effects
     useEffect(() => {
         const tabelaView = document.getElementById('db-tabelaView');
@@ -423,7 +481,7 @@ export default function App({ Component, pageProps }) {
     }, [valorGlobal]);
 
     return (
-        <MainContext.Provider value={[setViewActive, addNewTabela, tabelas, setTabelas, removeTabela, addRemoveTotalGasto, eraseTabelas, valorGlobal, setValorGlobal, sobraGlobal, setSobraGlobal, toggleHeaderSD, editTableName, dashboardIsLoading, setDashboardIsLoading]}>
+        <MainContext.Provider value={[setViewActive, addNewTabela, tabelas, setTabelas, removeTabela, addRemoveTotalGasto, eraseTabelas, valorGlobal, setValorGlobal, sobraGlobal, setSobraGlobal, toggleHeaderSD, editTableName, dashboardIsLoading, setDashboardIsLoading, refreshDashboard]}>
             <Component {...pageProps} />
         </MainContext.Provider>
     );

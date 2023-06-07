@@ -4,7 +4,7 @@ import styles from '@/styles/dashboard.module.css'
 import Tabela from './tabela';
 
 const TabelaView = () => {
-    const [ setViewActive, addNewTabela, tabelas, setTabelas, removeTabela, addRemoveTotalGasto, eraseTabelas ] = useContext(MainContext);
+    const [ setViewActive, addNewTabela, tabelas, setTabelas, removeTabela, addRemoveTotalGasto, eraseTabelas, valorGlobal, setValorGlobal, sobraGlobal, setSobraGlobal, toggleHeaderSD, editTableName, dashboardIsLoading, setDashboardIsLoading, refreshDashboard ] = useContext(MainContext);
 
     return (
         <section id='db-tabelaView' className='db-viewTabelaOn'>
@@ -12,11 +12,15 @@ const TabelaView = () => {
             <div className={styles.btnsNewEraseDiv}>
                 <button onClick={() => addNewTabela()} className={styles.newTableBtn}>
                     Nova tabela
-                    <ion-icon name="add-circle-outline"></ion-icon>
+                    <ion-icon name="add-circle"></ion-icon>
+                </button>
+                <button onClick={() => refreshDashboard()} className={styles.refreshDashboardBtn}>
+                    Atualizar Dashboard
+                    <ion-icon name="refresh-circle"></ion-icon>
                 </button>
                 <button onClick={() => eraseTabelas()} className={styles.eraseTableBtn}>
                     Excluir todas
-                    <ion-icon name="trash-bin-outline"></ion-icon>
+                    <ion-icon name="trash-bin"></ion-icon>
                 </button>
             </div>
         </section>
