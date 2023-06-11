@@ -25,16 +25,18 @@ export default function App({ Component, pageProps }) {
 
     async function sobraGlobalCounter(){
         if(document.getElementById('dashboard') !== null){
-            let tabelasValue = 0;
+            let tabelasTotal = 0;
+            let tabelasGasto = 0;
             let sobraObject = document.getElementById('db-sobraGlobal');
             
-            for(var i = 0; i < tabelas.length; i++){
-                tabelasValue = tabelasValue + parseFloat(tabelas[i].total);
-            }
-            
-            setSobraGlobal(valorGlobal - tabelasValue);
+            tabelas.filter((e) => {
+                tabelasTotal += e.total;
+                tabelasGasto += e.gasto;
+            });
+
+            setSobraGlobal((valorGlobal - tabelasTotal) + tabelasGasto);
     
-            if((valorGlobal - tabelasValue) < 0){
+            if((valorGlobal - tabelasTotal) + tabelasGasto < 0){
                 sobraObject.className = 'db-sobraGlobalNegative';
             } else{
                 sobraObject.className = 'db-sobraGlobalPositive';
@@ -182,10 +184,7 @@ export default function App({ Component, pageProps }) {
                 totalExpended += e.gasto;
             });
 
-            if(totalExpended > 0){
-                // Debitar total de valores gasto no total da conta
-                setValorGlobal(valorGlobal - totalExpended);
-                
+            if(totalExpended > 0){               
                 // Atualizar Tabelas para terem sobra 0
                 let newTables = tabelas.map(e => {
                     e.total = e.total - e.gasto;
@@ -206,7 +205,7 @@ export default function App({ Component, pageProps }) {
             return;
         }
         
-        await swal('Essa ação é importante!', 'Você realmente quer atualizar sua Dashboard? Isso vai remover todas as sobras e debita-lás no seu total. Recomendamos fazer isso apenas em caso de diferenças no valor total da conta.', 'info', {
+        await swal('Essa ação é importante!', 'Você realmente quer atualizar sua Dashboard? Isso vai igualar todos os gastos a zero, facilitando cálculos e a vista da tabela. Recomendamos fazer isso apenas em caso de diferenças no valor total da conta.', 'info', {
             buttons: {
                 cancel: 'Cancelar',
                 default: 'Prosseguir'
@@ -265,144 +264,88 @@ export default function App({ Component, pageProps }) {
         })
     }
 
-    async function addRemoveTotalGasto(type, fnc, index){
+    async function addRemoveTotalGasto(type, index){
         let value = null;
         
         if(type == 'total'){
-            if(fnc == 'add'){
-                await swal('Digite quanto você deseja adicionar: ', {
-                    content: 'input'
-                }).then(content  => {
-                    value = parseFloat(content);
-                    console.log(content, value);
-                });
+            await swal('Digite o novo valor total: ', {
+                content: 'input'
+            }).then(content  => {
+                value = parseFloat(content);
+                console.log(content, value);
+            });
 
-                if(value < 0){
-                    swal('ERROR', 'Você não digitou um número positivo!', 'error');
+            if(value < 0){
+                swal('ERROR', 'Você não digitou um número positivo!', 'error');
 
-                    return;
-                } else if(Number.isNaN(value)){ // usando a função Number.isNaN para checar se o número é NaN ou não
-                    swal('ERROR', 'É necessário NÚMEROS para fazer a operação.', 'error');
+                return;
+            } else if(value < tabelas[index].gasto){
+                swal('ERROR', 'Você digitou um número menor que o valor gasto!', 'error');
 
-                    return;
-                }
+                return;
+            } else if(Number.isNaN(value)){ // usando a função Number.isNaN para checar se o número é NaN ou não
+                swal('ERROR', 'É necessário NÚMEROS para fazer a operação.', 'error');
 
-                let filteredTables = tabelas.filter((e, id) => {
-                    if(id == index){
-                        e.total += value;
-
-                        return e;
-                    } else{
-                        return e;
-                    }
-                });
-                setTabelas(filteredTables);
-                sobraGlobalCounter();
-                console.log(value, 'valor no final');
-            } else if(fnc == 'remove'){
-                await swal('Digite quanto você deseja diminuir: ', {
-                    content: 'input'
-                }).then(content  => {
-                    value = parseFloat(content);
-                    console.log(content, value);
-                });
-                
-                if(value < 0){
-                    swal('ERROR', 'Você não digitou um número positivo!', 'error');
-
-                    return;
-                } if(Number.isNaN(value)){ // usando a função Number.isNaN para checar se o número é NaN ou não
-                    swal('ERROR', 'É necessário NÚMEROS para fazer a operação.', 'error');
-
-                    return;
-                } if(tabelas[index].total - value < 1){
-                    swal('ERROR', 'O total não pode ser menor que 1.', 'error');
-
-                    return;
-                } if((tabelas[index].total - value) < tabelas[index].gasto){
-                    swal('ERROR', 'O total não pode ser menor que o gasto.', 'error');
-
-                    return;
-                }
-
-                let filteredTables = tabelas.filter((e, id) => {
-                    if(id == index){
-                        e.total -= value;
-
-                        return e;
-                    } else{
-                        return e;
-                    }
-                });
-                setTabelas(filteredTables);
-                sobraGlobalCounter();
+                return;
             }
+
+            let filteredTables = tabelas.filter((e, id) => {
+                if(id == index){
+                    e.total = value;
+
+                    return e;
+                } else{
+                    return e;
+                }
+            });
+            setTabelas(filteredTables);
+            sobraGlobalCounter();
+            console.log(value, 'valor no final');
         } else if(type == 'gasto') { // gasto
-            if(fnc == 'add'){
-                await swal('Digite quanto você deseja adicionar: ', {
-                    content: 'input'
-                }).then(content  => {
-                    value = parseFloat(content);
-                    console.log(content, value);
-                });
-                
-                if(value < 0){
-                    swal('ERROR', 'Você não digitou um número positivo!', 'error');
+            await swal('Digite o novo valor gasto: ', {
+                content: 'input'
+            }).then(content  => {
+                value = parseFloat(content);
+                console.log(content, value);
+            });
 
-                    return;
-                } if(Number.isNaN(value)){ // usando a função Number.isNaN para checar se o número é NaN ou não
-                    swal('ERROR', 'É necessário NÚMEROS para fazer a operação.', 'error');
+            if(value < 0){
+                swal('ERROR', 'Você não digitou um número positivo!', 'error');
 
-                    return;
-                } if(tabelas[index].gasto + value > tabelas[index].total){
-                    swal('ERROR', 'O valor gasto não pode ser maior que o valor total.', 'error');
+                return;
+            } else if(value > tabelas[index].total){
+                swal('ERROR', 'Você digitou um número menor que o valor gasto!', 'error');
 
-                    return;
-                }
+                return;
+            } else if(Number.isNaN(value)){ // usando a função Number.isNaN para checar se o número é NaN ou não
+                swal('ERROR', 'É necessário NÚMEROS para fazer a operação.', 'error');
 
-                let filteredTables = tabelas.filter((e, id) => {
-                    if(id == index){
-                        e.gasto += value;
-
-                        return e;
-                    } else{
-                        return e;
-                    }
-                });
-                setTabelas(filteredTables);
-            } else if(fnc == 'remove'){
-                await swal('Digite quanto você deseja diminuir: ', {
-                    content: 'input'
-                }).then(content  => {
-                    value = parseFloat(content);
-                    console.log(content, value);
-                });
-                
-                if(value < 0){
-                    swal('ERROR', 'Você não digitou um número positivo!', 'error');
-
-                    return;
-                } if(Number.isNaN(value)){ // usando a função Number.isNaN para checar se o número é NaN ou não
-                    swal('ERROR', 'É necessário NÚMEROS para fazer a operação.', 'error');
-
-                    return;
-                } if(tabelas[index].gasto - value < 0){
-                    swal('ERROR', 'O valor gasto não pode ser menor que 0.', 'error');
-
-                    return;
-                }
-
-                let filteredTables = tabelas.filter((e, id) => {
-                    if(id == index){
-                        e.gasto -= value;
-
-                        return e;
-                    } else{
-                        return e;
-                    }
-                });
-                setTabelas(filteredTables);
+                return;
             }
+
+            let currentTableGasto = parseFloat(tabelas[index].gasto);
+            
+            let filteredTables = tabelas.filter((e, id) => {
+                if(id == index){
+                    e.gasto = value;
+                    
+                    return e;
+                } else{
+                    return e;
+                }
+            });
+            
+            setTabelas(filteredTables);
+
+            if(currentTableGasto > value){
+                setValorGlobal((parseFloat(valorGlobal) + (currentTableGasto - value)).toFixed(2));
+            } else {
+                let newValue = (parseFloat(valorGlobal) - (value - currentTableGasto)).toFixed(2);
+                setValorGlobal(newValue);
+            }
+
+            sobraGlobalCounter();
+            console.log(value, 'valor no final');
         }
     }
 
