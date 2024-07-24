@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
 import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 const ProjectSection = () => {
     const [data, setData] = useState();
@@ -20,7 +20,7 @@ const ProjectSection = () => {
     }
 
     useEffect(() => {
-        axios.get('https://api.github.com/users/yondv')
+        axios.get('https://api.github.com/users/vitorhcesar')
         .then(response => {
             // console.log(response.data);
             setData(response.data);
